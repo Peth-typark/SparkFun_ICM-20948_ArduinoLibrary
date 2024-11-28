@@ -8,16 +8,7 @@
 */
 #if defined(ICM_20948_USE_DMP) // Only include the 14301 Bytes of DMP if ICM_20948_USE_DMP is defined
 
-#if defined(ARDUINO_ARCH_MBED) // ARDUINO_ARCH_MBED (APOLLO3 v2) does not support or require pgmspace.h / PROGMEM
 const uint8_t dmp3_image[] = {
-#elif (defined(__AVR__) || defined(__arm__) || defined(__ARDUINO_ARC__) || defined(ESP8266)) && !defined(__linux__) // Store the DMP firmware in PROGMEM on older AVR (ATmega) platforms
-#define ICM_20948_USE_PROGMEM_FOR_DMP
-#include <avr/pgmspace.h>
-const uint8_t dmp3_image[] PROGMEM = {
-#else
-const uint8_t dmp3_image[] = {
-#endif
-
 #include "icm20948_img.dmp3a.h"
 };
 #endif
@@ -47,70 +38,70 @@ const int DMP_Secondary_On_Off_Byte_Ordering[icm_20948_DMP_Secondary_On_Off_Byte
 
 const uint16_t inv_androidSensor_to_control_bits[ANDROID_SENSOR_NUM_MAX] =
     {
-        // Data output control 1 register bit definition
-        // 16-bit accel                                0x8000
-        // 16-bit gyro                                 0x4000
-        // 16-bit compass                              0x2000
-        // 16-bit ALS                                  0x1000
-        // 32-bit 6-axis quaternion                    0x0800
-        // 32-bit 9-axis quaternion + heading accuracy 0x0400
-        // 16-bit pedometer quaternion                 0x0200
-        // 32-bit Geomag rv + heading accuracy         0x0100
-        // 16-bit Pressure                             0x0080
-        // 32-bit calibrated gyro                      0x0040
-        // 32-bit calibrated compass                   0x0020
-        // Pedometer Step Detector                     0x0010
-        // Header 2                                    0x0008
-        // Pedometer Step Indicator Bit 2              0x0004
-        // Pedometer Step Indicator Bit 1              0x0002
-        // Pedometer Step Indicator Bit 0              0x0001
-        // Unsupported Sensors are 0xFFFF
+  // Data output control 1 register bit definition
+  // 16-bit accel                                0x8000
+  // 16-bit gyro                                 0x4000
+  // 16-bit compass                              0x2000
+  // 16-bit ALS                                  0x1000
+  // 32-bit 6-axis quaternion                    0x0800
+  // 32-bit 9-axis quaternion + heading accuracy 0x0400
+  // 16-bit pedometer quaternion                 0x0200
+  // 32-bit Geomag rv + heading accuracy         0x0100
+  // 16-bit Pressure                             0x0080
+  // 32-bit calibrated gyro                      0x0040
+  // 32-bit calibrated compass                   0x0020
+  // Pedometer Step Detector                     0x0010
+  // Header 2                                    0x0008
+  // Pedometer Step Indicator Bit 2              0x0004
+  // Pedometer Step Indicator Bit 1              0x0002
+  // Pedometer Step Indicator Bit 0              0x0001
+  // Unsupported Sensors are 0xFFFF
 
-        0xFFFF, // 0  Meta Data
-        0x8008, // 1  Accelerometer
-        0x0028, // 2  Magnetic Field
-        0x0408, // 3  Orientation
-        0x4048, // 4  Gyroscope
-        0x1008, // 5  Light
-        0x0088, // 6  Pressure
-        0xFFFF, // 7  Temperature
-        0xFFFF, // 8  Proximity <----------- fixme
-        0x0808, // 9  Gravity
-        0x8808, // 10 Linear Acceleration
-        0x0408, // 11 Rotation Vector
-        0xFFFF, // 12 Humidity
-        0xFFFF, // 13 Ambient Temperature
-        0x2008, // 14 Magnetic Field Uncalibrated
-        0x0808, // 15 Game Rotation Vector
-        0x4008, // 16 Gyroscope Uncalibrated
-        0x0000, // 17 Significant Motion
-        0x0018, // 18 Step Detector
-        0x0010, // 19 Step Counter <----------- fixme
-        0x0108, // 20 Geomagnetic Rotation Vector
-        0xFFFF, // 21 ANDROID_SENSOR_HEART_RATE,
-        0xFFFF, // 22 ANDROID_SENSOR_PROXIMITY,
+  0xFFFF, // 0  Meta Data
+  0x8008, // 1  Accelerometer
+  0x0028, // 2  Magnetic Field
+  0x0408, // 3  Orientation
+  0x4048, // 4  Gyroscope
+  0x1008, // 5  Light
+  0x0088, // 6  Pressure
+  0xFFFF, // 7  Temperature
+  0xFFFF, // 8  Proximity <----------- fixme
+  0x0808, // 9  Gravity
+  0x8808, // 10 Linear Acceleration
+  0x0408, // 11 Rotation Vector
+  0xFFFF, // 12 Humidity
+  0xFFFF, // 13 Ambient Temperature
+  0x2008, // 14 Magnetic Field Uncalibrated
+  0x0808, // 15 Game Rotation Vector
+  0x4008, // 16 Gyroscope Uncalibrated
+  0x0000, // 17 Significant Motion
+  0x0018, // 18 Step Detector
+  0x0010, // 19 Step Counter <----------- fixme
+  0x0108, // 20 Geomagnetic Rotation Vector
+  0xFFFF, // 21 ANDROID_SENSOR_HEART_RATE,
+  0xFFFF, // 22 ANDROID_SENSOR_PROXIMITY,
 
-        0x8008, // 23 ANDROID_SENSOR_WAKEUP_ACCELEROMETER,
-        0x0028, // 24 ANDROID_SENSOR_WAKEUP_MAGNETIC_FIELD,
-        0x0408, // 25 ANDROID_SENSOR_WAKEUP_ORIENTATION,
-        0x4048, // 26 ANDROID_SENSOR_WAKEUP_GYROSCOPE,
-        0x1008, // 27 ANDROID_SENSOR_WAKEUP_LIGHT,
-        0x0088, // 28 ANDROID_SENSOR_WAKEUP_PRESSURE,
-        0x0808, // 29 ANDROID_SENSOR_WAKEUP_GRAVITY,
-        0x8808, // 30 ANDROID_SENSOR_WAKEUP_LINEAR_ACCELERATION,
-        0x0408, // 31 ANDROID_SENSOR_WAKEUP_ROTATION_VECTOR,
-        0xFFFF, // 32 ANDROID_SENSOR_WAKEUP_RELATIVE_HUMIDITY,
-        0xFFFF, // 33 ANDROID_SENSOR_WAKEUP_AMBIENT_TEMPERATURE,
-        0x2008, // 34 ANDROID_SENSOR_WAKEUP_MAGNETIC_FIELD_UNCALIBRATED,
-        0x0808, // 35 ANDROID_SENSOR_WAKEUP_GAME_ROTATION_VECTOR,
-        0x4008, // 36 ANDROID_SENSOR_WAKEUP_GYROSCOPE_UNCALIBRATED,
-        0x0018, // 37 ANDROID_SENSOR_WAKEUP_STEP_DETECTOR,
-        0x0010, // 38 ANDROID_SENSOR_WAKEUP_STEP_COUNTER,
-        0x0108, // 39 ANDROID_SENSOR_WAKEUP_GEOMAGNETIC_ROTATION_VECTOR
-        0xFFFF, // 40 ANDROID_SENSOR_WAKEUP_HEART_RATE,
-        0x0000, // 41 ANDROID_SENSOR_WAKEUP_TILT_DETECTOR,
-        0x8008, // 42 Raw Acc
-        0x4048, // 43 Raw Gyr
+  0x8008, // 23 ANDROID_SENSOR_WAKEUP_ACCELEROMETER,
+  0x0028, // 24 ANDROID_SENSOR_WAKEUP_MAGNETIC_FIELD,
+  0x0408, // 25 ANDROID_SENSOR_WAKEUP_ORIENTATION,
+  0x4048, // 26 ANDROID_SENSOR_WAKEUP_GYROSCOPE,
+  0x1008, // 27 ANDROID_SENSOR_WAKEUP_LIGHT,
+  0x0088, // 28 ANDROID_SENSOR_WAKEUP_PRESSURE,
+  0x0808, // 29 ANDROID_SENSOR_WAKEUP_GRAVITY,
+  0x8808, // 30 ANDROID_SENSOR_WAKEUP_LINEAR_ACCELERATION,
+  0x0408, // 31 ANDROID_SENSOR_WAKEUP_ROTATION_VECTOR,
+  0xFFFF, // 32 ANDROID_SENSOR_WAKEUP_RELATIVE_HUMIDITY,
+  0xFFFF, // 33 ANDROID_SENSOR_WAKEUP_AMBIENT_TEMPERATURE,
+  0x2008, // 34 ANDROID_SENSOR_WAKEUP_MAGNETIC_FIELD_UNCALIBRATED,
+  0x0808, // 35 ANDROID_SENSOR_WAKEUP_GAME_ROTATION_VECTOR,
+  0x4008, // 36 ANDROID_SENSOR_WAKEUP_GYROSCOPE_UNCALIBRATED,
+  0x0018, // 37 ANDROID_SENSOR_WAKEUP_STEP_DETECTOR,
+  0x0010, // 38 ANDROID_SENSOR_WAKEUP_STEP_COUNTER,
+  0x0108, // 39 ANDROID_SENSOR_WAKEUP_GEOMAGNETIC_ROTATION_VECTOR
+  0xFFFF, // 40 ANDROID_SENSOR_WAKEUP_HEART_RATE,
+  0x0000, // 41 ANDROID_SENSOR_WAKEUP_TILT_DETECTOR,
+  0x8008, // 42 Raw Acc
+  0x4048, // 43 Raw Gyr
 };
 
 const ICM_20948_Serif_t NullSerif = {
@@ -122,17 +113,17 @@ const ICM_20948_Serif_t NullSerif = {
 // Private function prototypes
 
 // Function definitions
-ICM_20948_Status_e ICM_20948_init_struct(ICM_20948_Device_t *pdev)
+ICM_20948_Status_e ICM_20948_init_struct(ICM_20948_Device_t* pdev)
 {
   // Initialize all elements by 0 except for _last_bank
   // Initialize _last_bank to 4 (invalid bank number)
   // so ICM_20948_set_bank function does not skip issuing bank change operation
-  static const ICM_20948_Device_t init_device = { ._last_bank = 4 };
+  static const ICM_20948_Device_t init_device = {._last_bank = 4 };
   *pdev = init_device;
   return ICM_20948_Stat_Ok;
 }
 
-ICM_20948_Status_e ICM_20948_link_serif(ICM_20948_Device_t *pdev, const ICM_20948_Serif_t *s)
+ICM_20948_Status_e ICM_20948_link_serif(ICM_20948_Device_t* pdev, const ICM_20948_Serif_t* s)
 {
   if (s == NULL)
   {
@@ -146,7 +137,7 @@ ICM_20948_Status_e ICM_20948_link_serif(ICM_20948_Device_t *pdev, const ICM_2094
   return ICM_20948_Stat_Ok;
 }
 
-ICM_20948_Status_e ICM_20948_execute_w(ICM_20948_Device_t *pdev, uint8_t regaddr, uint8_t *pdata, uint32_t len)
+ICM_20948_Status_e ICM_20948_execute_w(ICM_20948_Device_t* pdev, uint8_t regaddr, uint8_t* pdata, uint32_t len)
 {
   if (pdev->_serif->write == NULL)
   {
@@ -155,7 +146,7 @@ ICM_20948_Status_e ICM_20948_execute_w(ICM_20948_Device_t *pdev, uint8_t regaddr
   return (*pdev->_serif->write)(regaddr, pdata, len, pdev->_serif->user);
 }
 
-ICM_20948_Status_e ICM_20948_execute_r(ICM_20948_Device_t *pdev, uint8_t regaddr, uint8_t *pdata, uint32_t len)
+ICM_20948_Status_e ICM_20948_execute_r(ICM_20948_Device_t* pdev, uint8_t regaddr, uint8_t* pdata, uint32_t len)
 {
   if (pdev->_serif->read == NULL)
   {
@@ -166,7 +157,7 @@ ICM_20948_Status_e ICM_20948_execute_r(ICM_20948_Device_t *pdev, uint8_t regaddr
 
 //Transact directly with an I2C device, one byte at a time
 //Used to configure a device before it is setup into a normal 0-3 peripheral slot
-ICM_20948_Status_e ICM_20948_i2c_controller_periph4_txn(ICM_20948_Device_t *pdev, uint8_t addr, uint8_t reg, uint8_t *data, uint8_t len, bool Rw, bool send_reg_addr)
+ICM_20948_Status_e ICM_20948_i2c_controller_periph4_txn(ICM_20948_Device_t* pdev, uint8_t addr, uint8_t reg, uint8_t* data, uint8_t len, bool Rw, bool send_reg_addr)
 {
   // Thanks MikeFair! // https://github.com/kriswiner/MPU9250/issues/86
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
@@ -174,14 +165,14 @@ ICM_20948_Status_e ICM_20948_i2c_controller_periph4_txn(ICM_20948_Device_t *pdev
   addr = (((Rw) ? 0x80 : 0x00) | addr);
 
   retval = ICM_20948_set_bank(pdev, 3);
-  retval = ICM_20948_execute_w(pdev, AGB3_REG_I2C_PERIPH4_ADDR, (uint8_t *)&addr, 1);
+  retval = ICM_20948_execute_w(pdev, AGB3_REG_I2C_PERIPH4_ADDR, (uint8_t*)&addr, 1);
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
   }
 
   retval = ICM_20948_set_bank(pdev, 3);
-  retval = ICM_20948_execute_w(pdev, AGB3_REG_I2C_PERIPH4_REG, (uint8_t *)&reg, 1);
+  retval = ICM_20948_execute_w(pdev, AGB3_REG_I2C_PERIPH4_REG, (uint8_t*)&reg, 1);
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -202,7 +193,7 @@ ICM_20948_Status_e ICM_20948_i2c_controller_periph4_txn(ICM_20948_Device_t *pdev
     if (!Rw)
     {
       retval = ICM_20948_set_bank(pdev, 3);
-      retval = ICM_20948_execute_w(pdev, AGB3_REG_I2C_PERIPH4_DO, (uint8_t *)&(data[nByte]), 1);
+      retval = ICM_20948_execute_w(pdev, AGB3_REG_I2C_PERIPH4_DO, (uint8_t*)&(data[nByte]), 1);
       if (retval != ICM_20948_Stat_Ok)
       {
         return retval;
@@ -211,7 +202,7 @@ ICM_20948_Status_e ICM_20948_i2c_controller_periph4_txn(ICM_20948_Device_t *pdev
 
     // Kick off txn
     retval = ICM_20948_set_bank(pdev, 3);
-    retval = ICM_20948_execute_w(pdev, AGB3_REG_I2C_PERIPH4_CTRL, (uint8_t *)&ctrl, sizeof(ICM_20948_I2C_PERIPH4_CTRL_t));
+    retval = ICM_20948_execute_w(pdev, AGB3_REG_I2C_PERIPH4_CTRL, (uint8_t*)&ctrl, sizeof(ICM_20948_I2C_PERIPH4_CTRL_t));
     if (retval != ICM_20948_Stat_Ok)
     {
       return retval;
@@ -224,7 +215,7 @@ ICM_20948_Status_e ICM_20948_i2c_controller_periph4_txn(ICM_20948_Device_t *pdev
     while (!peripheral4Done)
     {
       retval = ICM_20948_set_bank(pdev, 0);
-      retval = ICM_20948_execute_r(pdev, AGB0_REG_I2C_MST_STATUS, (uint8_t *)&i2c_mst_status, 1);
+      retval = ICM_20948_execute_r(pdev, AGB0_REG_I2C_MST_STATUS, (uint8_t*)&i2c_mst_status, 1);
 
       peripheral4Done = (i2c_mst_status.I2C_PERIPH4_DONE /*| (millis() > tsTimeout) */); //Avoid forever-loops
       peripheral4Done |= (count >= max_cycles);
@@ -253,17 +244,17 @@ ICM_20948_Status_e ICM_20948_i2c_controller_periph4_txn(ICM_20948_Device_t *pdev
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_i2c_master_single_w(ICM_20948_Device_t *pdev, uint8_t addr, uint8_t reg, uint8_t *data)
+ICM_20948_Status_e ICM_20948_i2c_master_single_w(ICM_20948_Device_t* pdev, uint8_t addr, uint8_t reg, uint8_t* data)
 {
   return ICM_20948_i2c_controller_periph4_txn(pdev, addr, reg, data, 1, false, true);
 }
 
-ICM_20948_Status_e ICM_20948_i2c_master_single_r(ICM_20948_Device_t *pdev, uint8_t addr, uint8_t reg, uint8_t *data)
+ICM_20948_Status_e ICM_20948_i2c_master_single_r(ICM_20948_Device_t* pdev, uint8_t addr, uint8_t reg, uint8_t* data)
 {
   return ICM_20948_i2c_controller_periph4_txn(pdev, addr, reg, data, 1, true, true);
 }
 
-ICM_20948_Status_e ICM_20948_set_bank(ICM_20948_Device_t *pdev, uint8_t bank)
+ICM_20948_Status_e ICM_20948_set_bank(ICM_20948_Device_t* pdev, uint8_t bank)
 {
   if (bank > 3)
   {
@@ -278,14 +269,14 @@ ICM_20948_Status_e ICM_20948_set_bank(ICM_20948_Device_t *pdev, uint8_t bank)
   return ICM_20948_execute_w(pdev, REG_BANK_SEL, &bank, 1);
 }
 
-ICM_20948_Status_e ICM_20948_sw_reset(ICM_20948_Device_t *pdev)
+ICM_20948_Status_e ICM_20948_sw_reset(ICM_20948_Device_t* pdev)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
   ICM_20948_PWR_MGMT_1_t reg;
 
   ICM_20948_set_bank(pdev, 0); // Must be in the right bank
 
-  retval = ICM_20948_execute_r(pdev, AGB0_REG_PWR_MGMT_1, (uint8_t *)&reg, sizeof(ICM_20948_PWR_MGMT_1_t));
+  retval = ICM_20948_execute_r(pdev, AGB0_REG_PWR_MGMT_1, (uint8_t*)&reg, sizeof(ICM_20948_PWR_MGMT_1_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -293,7 +284,7 @@ ICM_20948_Status_e ICM_20948_sw_reset(ICM_20948_Device_t *pdev)
 
   reg.DEVICE_RESET = 1;
 
-  retval = ICM_20948_execute_w(pdev, AGB0_REG_PWR_MGMT_1, (uint8_t *)&reg, sizeof(ICM_20948_PWR_MGMT_1_t));
+  retval = ICM_20948_execute_w(pdev, AGB0_REG_PWR_MGMT_1, (uint8_t*)&reg, sizeof(ICM_20948_PWR_MGMT_1_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -301,14 +292,14 @@ ICM_20948_Status_e ICM_20948_sw_reset(ICM_20948_Device_t *pdev)
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_sleep(ICM_20948_Device_t *pdev, bool on)
+ICM_20948_Status_e ICM_20948_sleep(ICM_20948_Device_t* pdev, bool on)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
   ICM_20948_PWR_MGMT_1_t reg;
 
   ICM_20948_set_bank(pdev, 0); // Must be in the right bank
 
-  retval = ICM_20948_execute_r(pdev, AGB0_REG_PWR_MGMT_1, (uint8_t *)&reg, sizeof(ICM_20948_PWR_MGMT_1_t));
+  retval = ICM_20948_execute_r(pdev, AGB0_REG_PWR_MGMT_1, (uint8_t*)&reg, sizeof(ICM_20948_PWR_MGMT_1_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -323,7 +314,7 @@ ICM_20948_Status_e ICM_20948_sleep(ICM_20948_Device_t *pdev, bool on)
     reg.SLEEP = 0;
   }
 
-  retval = ICM_20948_execute_w(pdev, AGB0_REG_PWR_MGMT_1, (uint8_t *)&reg, sizeof(ICM_20948_PWR_MGMT_1_t));
+  retval = ICM_20948_execute_w(pdev, AGB0_REG_PWR_MGMT_1, (uint8_t*)&reg, sizeof(ICM_20948_PWR_MGMT_1_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -331,14 +322,14 @@ ICM_20948_Status_e ICM_20948_sleep(ICM_20948_Device_t *pdev, bool on)
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_low_power(ICM_20948_Device_t *pdev, bool on)
+ICM_20948_Status_e ICM_20948_low_power(ICM_20948_Device_t* pdev, bool on)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
   ICM_20948_PWR_MGMT_1_t reg;
 
   ICM_20948_set_bank(pdev, 0); // Must be in the right bank
 
-  retval = ICM_20948_execute_r(pdev, AGB0_REG_PWR_MGMT_1, (uint8_t *)&reg, sizeof(ICM_20948_PWR_MGMT_1_t));
+  retval = ICM_20948_execute_r(pdev, AGB0_REG_PWR_MGMT_1, (uint8_t*)&reg, sizeof(ICM_20948_PWR_MGMT_1_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -353,7 +344,7 @@ ICM_20948_Status_e ICM_20948_low_power(ICM_20948_Device_t *pdev, bool on)
     reg.LP_EN = 0;
   }
 
-  retval = ICM_20948_execute_w(pdev, AGB0_REG_PWR_MGMT_1, (uint8_t *)&reg, sizeof(ICM_20948_PWR_MGMT_1_t));
+  retval = ICM_20948_execute_w(pdev, AGB0_REG_PWR_MGMT_1, (uint8_t*)&reg, sizeof(ICM_20948_PWR_MGMT_1_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -361,14 +352,14 @@ ICM_20948_Status_e ICM_20948_low_power(ICM_20948_Device_t *pdev, bool on)
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_set_clock_source(ICM_20948_Device_t *pdev, ICM_20948_PWR_MGMT_1_CLKSEL_e source)
+ICM_20948_Status_e ICM_20948_set_clock_source(ICM_20948_Device_t* pdev, ICM_20948_PWR_MGMT_1_CLKSEL_e source)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
   ICM_20948_PWR_MGMT_1_t reg;
 
   ICM_20948_set_bank(pdev, 0); // Must be in the right bank
 
-  retval = ICM_20948_execute_r(pdev, AGB0_REG_PWR_MGMT_1, (uint8_t *)&reg, sizeof(ICM_20948_PWR_MGMT_1_t));
+  retval = ICM_20948_execute_r(pdev, AGB0_REG_PWR_MGMT_1, (uint8_t*)&reg, sizeof(ICM_20948_PWR_MGMT_1_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -376,7 +367,7 @@ ICM_20948_Status_e ICM_20948_set_clock_source(ICM_20948_Device_t *pdev, ICM_2094
 
   reg.CLKSEL = source;
 
-  retval = ICM_20948_execute_w(pdev, AGB0_REG_PWR_MGMT_1, (uint8_t *)&reg, sizeof(ICM_20948_PWR_MGMT_1_t));
+  retval = ICM_20948_execute_w(pdev, AGB0_REG_PWR_MGMT_1, (uint8_t*)&reg, sizeof(ICM_20948_PWR_MGMT_1_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -384,7 +375,7 @@ ICM_20948_Status_e ICM_20948_set_clock_source(ICM_20948_Device_t *pdev, ICM_2094
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_get_who_am_i(ICM_20948_Device_t *pdev, uint8_t *whoami)
+ICM_20948_Status_e ICM_20948_get_who_am_i(ICM_20948_Device_t* pdev, uint8_t* whoami)
 {
   if (whoami == NULL)
   {
@@ -394,13 +385,14 @@ ICM_20948_Status_e ICM_20948_get_who_am_i(ICM_20948_Device_t *pdev, uint8_t *who
   return ICM_20948_execute_r(pdev, AGB0_REG_WHO_AM_I, whoami, 1);
 }
 
-ICM_20948_Status_e ICM_20948_check_id(ICM_20948_Device_t *pdev)
+ICM_20948_Status_e ICM_20948_check_id(ICM_20948_Device_t* pdev)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
   uint8_t whoami = 0x00;
   retval = ICM_20948_get_who_am_i(pdev, &whoami);
   if (retval != ICM_20948_Stat_Ok)
   {
+    printk("i am icm20948\n");
     return retval;
   }
   if (whoami != ICM_20948_WHOAMI)
@@ -410,7 +402,7 @@ ICM_20948_Status_e ICM_20948_check_id(ICM_20948_Device_t *pdev)
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_data_ready(ICM_20948_Device_t *pdev)
+ICM_20948_Status_e ICM_20948_data_ready(ICM_20948_Device_t* pdev)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
   ICM_20948_INT_STATUS_1_t reg;
@@ -419,7 +411,7 @@ ICM_20948_Status_e ICM_20948_data_ready(ICM_20948_Device_t *pdev)
   {
     return retval;
   }
-  retval = ICM_20948_execute_r(pdev, AGB0_REG_INT_STATUS_1, (uint8_t *)&reg, sizeof(ICM_20948_INT_STATUS_1_t));
+  retval = ICM_20948_execute_r(pdev, AGB0_REG_INT_STATUS_1, (uint8_t*)&reg, sizeof(ICM_20948_INT_STATUS_1_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -432,13 +424,13 @@ ICM_20948_Status_e ICM_20948_data_ready(ICM_20948_Device_t *pdev)
 }
 
 // Interrupt Configuration
-ICM_20948_Status_e ICM_20948_int_pin_cfg(ICM_20948_Device_t *pdev, ICM_20948_INT_PIN_CFG_t *write, ICM_20948_INT_PIN_CFG_t *read)
+ICM_20948_Status_e ICM_20948_int_pin_cfg(ICM_20948_Device_t* pdev, ICM_20948_INT_PIN_CFG_t* write, ICM_20948_INT_PIN_CFG_t* read)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
   retval = ICM_20948_set_bank(pdev, 0); // Must be in the right bank
   if (write != NULL)
   { // write first, if available
-    retval = ICM_20948_execute_w(pdev, AGB0_REG_INT_PIN_CONFIG, (uint8_t *)write, sizeof(ICM_20948_INT_PIN_CFG_t));
+    retval = ICM_20948_execute_w(pdev, AGB0_REG_INT_PIN_CONFIG, (uint8_t*)write, sizeof(ICM_20948_INT_PIN_CFG_t));
     if (retval != ICM_20948_Stat_Ok)
     {
       return retval;
@@ -446,7 +438,7 @@ ICM_20948_Status_e ICM_20948_int_pin_cfg(ICM_20948_Device_t *pdev, ICM_20948_INT
   }
   if (read != NULL)
   { // then read, to allow for verification
-    retval = ICM_20948_execute_r(pdev, AGB0_REG_INT_PIN_CONFIG, (uint8_t *)read, sizeof(ICM_20948_INT_PIN_CFG_t));
+    retval = ICM_20948_execute_r(pdev, AGB0_REG_INT_PIN_CONFIG, (uint8_t*)read, sizeof(ICM_20948_INT_PIN_CFG_t));
     if (retval != ICM_20948_Stat_Ok)
     {
       return retval;
@@ -455,7 +447,7 @@ ICM_20948_Status_e ICM_20948_int_pin_cfg(ICM_20948_Device_t *pdev, ICM_20948_INT
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_int_enable(ICM_20948_Device_t *pdev, ICM_20948_INT_enable_t *write, ICM_20948_INT_enable_t *read)
+ICM_20948_Status_e ICM_20948_int_enable(ICM_20948_Device_t* pdev, ICM_20948_INT_enable_t* write, ICM_20948_INT_enable_t* read)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
 
@@ -489,22 +481,22 @@ ICM_20948_Status_e ICM_20948_int_enable(ICM_20948_Device_t *pdev, ICM_20948_INT_
     en_3.individual.FIFO_WM_EN_0 = write->FIFO_WM_EN_0;
     en_3.individual.reserved_0 = 0; // Clear RAM garbage
 
-    retval = ICM_20948_execute_w(pdev, AGB0_REG_INT_ENABLE, (uint8_t *)&en_0, sizeof(ICM_20948_INT_ENABLE_t));
+    retval = ICM_20948_execute_w(pdev, AGB0_REG_INT_ENABLE, (uint8_t*)&en_0, sizeof(ICM_20948_INT_ENABLE_t));
     if (retval != ICM_20948_Stat_Ok)
     {
       return retval;
     }
-    retval = ICM_20948_execute_w(pdev, AGB0_REG_INT_ENABLE_1, (uint8_t *)&en_1, sizeof(ICM_20948_INT_ENABLE_1_t));
+    retval = ICM_20948_execute_w(pdev, AGB0_REG_INT_ENABLE_1, (uint8_t*)&en_1, sizeof(ICM_20948_INT_ENABLE_1_t));
     if (retval != ICM_20948_Stat_Ok)
     {
       return retval;
     }
-    retval = ICM_20948_execute_w(pdev, AGB0_REG_INT_ENABLE_2, (uint8_t *)&en_2, sizeof(ICM_20948_INT_ENABLE_2_t));
+    retval = ICM_20948_execute_w(pdev, AGB0_REG_INT_ENABLE_2, (uint8_t*)&en_2, sizeof(ICM_20948_INT_ENABLE_2_t));
     if (retval != ICM_20948_Stat_Ok)
     {
       return retval;
     }
-    retval = ICM_20948_execute_w(pdev, AGB0_REG_INT_ENABLE_3, (uint8_t *)&en_3, sizeof(ICM_20948_INT_ENABLE_3_t));
+    retval = ICM_20948_execute_w(pdev, AGB0_REG_INT_ENABLE_3, (uint8_t*)&en_3, sizeof(ICM_20948_INT_ENABLE_3_t));
     if (retval != ICM_20948_Stat_Ok)
     {
       return retval;
@@ -513,22 +505,22 @@ ICM_20948_Status_e ICM_20948_int_enable(ICM_20948_Device_t *pdev, ICM_20948_INT_
 
   if (read != NULL)
   { // If read pointer is not NULL then read the registers (if write is not NULL then this should read back the results of write into read)
-    retval = ICM_20948_execute_r(pdev, AGB0_REG_INT_ENABLE, (uint8_t *)&en_0, sizeof(ICM_20948_INT_ENABLE_t));
+    retval = ICM_20948_execute_r(pdev, AGB0_REG_INT_ENABLE, (uint8_t*)&en_0, sizeof(ICM_20948_INT_ENABLE_t));
     if (retval != ICM_20948_Stat_Ok)
     {
       return retval;
     }
-    retval = ICM_20948_execute_r(pdev, AGB0_REG_INT_ENABLE_1, (uint8_t *)&en_1, sizeof(ICM_20948_INT_ENABLE_1_t));
+    retval = ICM_20948_execute_r(pdev, AGB0_REG_INT_ENABLE_1, (uint8_t*)&en_1, sizeof(ICM_20948_INT_ENABLE_1_t));
     if (retval != ICM_20948_Stat_Ok)
     {
       return retval;
     }
-    retval = ICM_20948_execute_r(pdev, AGB0_REG_INT_ENABLE_2, (uint8_t *)&en_2, sizeof(ICM_20948_INT_ENABLE_2_t));
+    retval = ICM_20948_execute_r(pdev, AGB0_REG_INT_ENABLE_2, (uint8_t*)&en_2, sizeof(ICM_20948_INT_ENABLE_2_t));
     if (retval != ICM_20948_Stat_Ok)
     {
       return retval;
     }
-    retval = ICM_20948_execute_r(pdev, AGB0_REG_INT_ENABLE_3, (uint8_t *)&en_3, sizeof(ICM_20948_INT_ENABLE_3_t));
+    retval = ICM_20948_execute_r(pdev, AGB0_REG_INT_ENABLE_3, (uint8_t*)&en_3, sizeof(ICM_20948_INT_ENABLE_3_t));
     if (retval != ICM_20948_Stat_Ok)
     {
       return retval;
@@ -555,7 +547,7 @@ ICM_20948_Status_e ICM_20948_int_enable(ICM_20948_Device_t *pdev, ICM_20948_INT_
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_wom_logic(ICM_20948_Device_t *pdev, ICM_20948_ACCEL_INTEL_CTRL_t *write, ICM_20948_ACCEL_INTEL_CTRL_t *read)
+ICM_20948_Status_e ICM_20948_wom_logic(ICM_20948_Device_t* pdev, ICM_20948_ACCEL_INTEL_CTRL_t* write, ICM_20948_ACCEL_INTEL_CTRL_t* read)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
 
@@ -568,7 +560,7 @@ ICM_20948_Status_e ICM_20948_wom_logic(ICM_20948_Device_t *pdev, ICM_20948_ACCEL
     ctrl.ACCEL_INTEL_EN = write->ACCEL_INTEL_EN;
     ctrl.ACCEL_INTEL_MODE_INT = write->ACCEL_INTEL_MODE_INT;
 
-    retval = ICM_20948_execute_w(pdev, AGB2_REG_ACCEL_INTEL_CTRL, (uint8_t *)&ctrl, sizeof(ICM_20948_ACCEL_INTEL_CTRL_t));
+    retval = ICM_20948_execute_w(pdev, AGB2_REG_ACCEL_INTEL_CTRL, (uint8_t*)&ctrl, sizeof(ICM_20948_ACCEL_INTEL_CTRL_t));
     if (retval != ICM_20948_Stat_Ok)
     {
       return retval;
@@ -577,7 +569,7 @@ ICM_20948_Status_e ICM_20948_wom_logic(ICM_20948_Device_t *pdev, ICM_20948_ACCEL
 
   if (read != NULL)
   { // If read pointer is not NULL then read the registers (if write is not NULL then this should read back the results of write into read)
-    retval = ICM_20948_execute_r(pdev, AGB2_REG_ACCEL_INTEL_CTRL, (uint8_t *)&ctrl, sizeof(ICM_20948_ACCEL_INTEL_CTRL_t));
+    retval = ICM_20948_execute_r(pdev, AGB2_REG_ACCEL_INTEL_CTRL, (uint8_t*)&ctrl, sizeof(ICM_20948_ACCEL_INTEL_CTRL_t));
     if (retval != ICM_20948_Stat_Ok)
     {
       return retval;
@@ -590,7 +582,7 @@ ICM_20948_Status_e ICM_20948_wom_logic(ICM_20948_Device_t *pdev, ICM_20948_ACCEL
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_wom_threshold(ICM_20948_Device_t *pdev, ICM_20948_ACCEL_WOM_THR_t *write, ICM_20948_ACCEL_WOM_THR_t *read)
+ICM_20948_Status_e ICM_20948_wom_threshold(ICM_20948_Device_t* pdev, ICM_20948_ACCEL_WOM_THR_t* write, ICM_20948_ACCEL_WOM_THR_t* read)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
 
@@ -602,7 +594,7 @@ ICM_20948_Status_e ICM_20948_wom_threshold(ICM_20948_Device_t *pdev, ICM_20948_A
   { // If the write pointer is not NULL then write to the registers BEFORE reading
     thr.WOM_THRESHOLD = write->WOM_THRESHOLD;
 
-    retval = ICM_20948_execute_w(pdev, AGB2_REG_ACCEL_WOM_THR, (uint8_t *)&thr, sizeof(ICM_20948_ACCEL_WOM_THR_t));
+    retval = ICM_20948_execute_w(pdev, AGB2_REG_ACCEL_WOM_THR, (uint8_t*)&thr, sizeof(ICM_20948_ACCEL_WOM_THR_t));
     if (retval != ICM_20948_Stat_Ok)
     {
       return retval;
@@ -611,7 +603,7 @@ ICM_20948_Status_e ICM_20948_wom_threshold(ICM_20948_Device_t *pdev, ICM_20948_A
 
   if (read != NULL)
   { // If read pointer is not NULL then read the registers (if write is not NULL then this should read back the results of write into read)
-    retval = ICM_20948_execute_r(pdev, AGB2_REG_ACCEL_WOM_THR, (uint8_t *)&thr, sizeof(ICM_20948_ACCEL_WOM_THR_t));
+    retval = ICM_20948_execute_r(pdev, AGB2_REG_ACCEL_WOM_THR, (uint8_t*)&thr, sizeof(ICM_20948_ACCEL_WOM_THR_t));
     if (retval != ICM_20948_Stat_Ok)
     {
       return retval;
@@ -623,7 +615,7 @@ ICM_20948_Status_e ICM_20948_wom_threshold(ICM_20948_Device_t *pdev, ICM_20948_A
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_set_sample_mode(ICM_20948_Device_t *pdev, ICM_20948_InternalSensorID_bm sensors, ICM_20948_LP_CONFIG_CYCLE_e mode)
+ICM_20948_Status_e ICM_20948_set_sample_mode(ICM_20948_Device_t* pdev, ICM_20948_InternalSensorID_bm sensors, ICM_20948_LP_CONFIG_CYCLE_e mode)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
   ICM_20948_LP_CONFIG_t reg;
@@ -638,7 +630,7 @@ ICM_20948_Status_e ICM_20948_set_sample_mode(ICM_20948_Device_t *pdev, ICM_20948
   {
     return retval;
   }
-  retval = ICM_20948_execute_r(pdev, AGB0_REG_LP_CONFIG, (uint8_t *)&reg, sizeof(ICM_20948_LP_CONFIG_t));
+  retval = ICM_20948_execute_r(pdev, AGB0_REG_LP_CONFIG, (uint8_t*)&reg, sizeof(ICM_20948_LP_CONFIG_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -657,14 +649,14 @@ ICM_20948_Status_e ICM_20948_set_sample_mode(ICM_20948_Device_t *pdev, ICM_20948
     reg.I2C_MST_CYCLE = mode;
   }
 
-  retval = ICM_20948_execute_w(pdev, AGB0_REG_LP_CONFIG, (uint8_t *)&reg, sizeof(ICM_20948_LP_CONFIG_t));
+  retval = ICM_20948_execute_w(pdev, AGB0_REG_LP_CONFIG, (uint8_t*)&reg, sizeof(ICM_20948_LP_CONFIG_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
   }
 
   // Check the data was written correctly
-  retval = ICM_20948_execute_r(pdev, AGB0_REG_LP_CONFIG, (uint8_t *)&reg, sizeof(ICM_20948_LP_CONFIG_t));
+  retval = ICM_20948_execute_r(pdev, AGB0_REG_LP_CONFIG, (uint8_t*)&reg, sizeof(ICM_20948_LP_CONFIG_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -685,7 +677,7 @@ ICM_20948_Status_e ICM_20948_set_sample_mode(ICM_20948_Device_t *pdev, ICM_20948
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_set_full_scale(ICM_20948_Device_t *pdev, ICM_20948_InternalSensorID_bm sensors, ICM_20948_fss_t fss)
+ICM_20948_Status_e ICM_20948_set_full_scale(ICM_20948_Device_t* pdev, ICM_20948_InternalSensorID_bm sensors, ICM_20948_fss_t fss)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
 
@@ -698,28 +690,28 @@ ICM_20948_Status_e ICM_20948_set_full_scale(ICM_20948_Device_t *pdev, ICM_20948_
   {
     ICM_20948_ACCEL_CONFIG_t reg;
     retval |= ICM_20948_set_bank(pdev, 2); // Must be in the right bank
-    retval |= ICM_20948_execute_r(pdev, AGB2_REG_ACCEL_CONFIG, (uint8_t *)&reg, sizeof(ICM_20948_ACCEL_CONFIG_t));
+    retval |= ICM_20948_execute_r(pdev, AGB2_REG_ACCEL_CONFIG, (uint8_t*)&reg, sizeof(ICM_20948_ACCEL_CONFIG_t));
     reg.ACCEL_FS_SEL = fss.a;
-    retval |= ICM_20948_execute_w(pdev, AGB2_REG_ACCEL_CONFIG, (uint8_t *)&reg, sizeof(ICM_20948_ACCEL_CONFIG_t));
+    retval |= ICM_20948_execute_w(pdev, AGB2_REG_ACCEL_CONFIG, (uint8_t*)&reg, sizeof(ICM_20948_ACCEL_CONFIG_t));
     // Check the data was written correctly
-    retval |= ICM_20948_execute_r(pdev, AGB2_REG_ACCEL_CONFIG, (uint8_t *)&reg, sizeof(ICM_20948_ACCEL_CONFIG_t));
+    retval |= ICM_20948_execute_r(pdev, AGB2_REG_ACCEL_CONFIG, (uint8_t*)&reg, sizeof(ICM_20948_ACCEL_CONFIG_t));
     if (reg.ACCEL_FS_SEL != fss.a) retval |= ICM_20948_Stat_Err;
   }
   if (sensors & ICM_20948_Internal_Gyr)
   {
     ICM_20948_GYRO_CONFIG_1_t reg;
     retval |= ICM_20948_set_bank(pdev, 2); // Must be in the right bank
-    retval |= ICM_20948_execute_r(pdev, AGB2_REG_GYRO_CONFIG_1, (uint8_t *)&reg, sizeof(ICM_20948_GYRO_CONFIG_1_t));
+    retval |= ICM_20948_execute_r(pdev, AGB2_REG_GYRO_CONFIG_1, (uint8_t*)&reg, sizeof(ICM_20948_GYRO_CONFIG_1_t));
     reg.GYRO_FS_SEL = fss.g;
-    retval |= ICM_20948_execute_w(pdev, AGB2_REG_GYRO_CONFIG_1, (uint8_t *)&reg, sizeof(ICM_20948_GYRO_CONFIG_1_t));
+    retval |= ICM_20948_execute_w(pdev, AGB2_REG_GYRO_CONFIG_1, (uint8_t*)&reg, sizeof(ICM_20948_GYRO_CONFIG_1_t));
     // Check the data was written correctly
-    retval |= ICM_20948_execute_r(pdev, AGB2_REG_GYRO_CONFIG_1, (uint8_t *)&reg, sizeof(ICM_20948_GYRO_CONFIG_1_t));
+    retval |= ICM_20948_execute_r(pdev, AGB2_REG_GYRO_CONFIG_1, (uint8_t*)&reg, sizeof(ICM_20948_GYRO_CONFIG_1_t));
     if (reg.GYRO_FS_SEL != fss.g) retval |= ICM_20948_Stat_Err;
   }
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_set_dlpf_cfg(ICM_20948_Device_t *pdev, ICM_20948_InternalSensorID_bm sensors, ICM_20948_dlpcfg_t cfg)
+ICM_20948_Status_e ICM_20948_set_dlpf_cfg(ICM_20948_Device_t* pdev, ICM_20948_InternalSensorID_bm sensors, ICM_20948_dlpcfg_t cfg)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
 
@@ -732,28 +724,28 @@ ICM_20948_Status_e ICM_20948_set_dlpf_cfg(ICM_20948_Device_t *pdev, ICM_20948_In
   {
     ICM_20948_ACCEL_CONFIG_t reg;
     retval |= ICM_20948_set_bank(pdev, 2); // Must be in the right bank
-    retval |= ICM_20948_execute_r(pdev, AGB2_REG_ACCEL_CONFIG, (uint8_t *)&reg, sizeof(ICM_20948_ACCEL_CONFIG_t));
+    retval |= ICM_20948_execute_r(pdev, AGB2_REG_ACCEL_CONFIG, (uint8_t*)&reg, sizeof(ICM_20948_ACCEL_CONFIG_t));
     reg.ACCEL_DLPFCFG = cfg.a;
-    retval |= ICM_20948_execute_w(pdev, AGB2_REG_ACCEL_CONFIG, (uint8_t *)&reg, sizeof(ICM_20948_ACCEL_CONFIG_t));
+    retval |= ICM_20948_execute_w(pdev, AGB2_REG_ACCEL_CONFIG, (uint8_t*)&reg, sizeof(ICM_20948_ACCEL_CONFIG_t));
     // Check the data was written correctly
-    retval |= ICM_20948_execute_r(pdev, AGB2_REG_ACCEL_CONFIG, (uint8_t *)&reg, sizeof(ICM_20948_ACCEL_CONFIG_t));
+    retval |= ICM_20948_execute_r(pdev, AGB2_REG_ACCEL_CONFIG, (uint8_t*)&reg, sizeof(ICM_20948_ACCEL_CONFIG_t));
     if (reg.ACCEL_DLPFCFG != cfg.a) retval |= ICM_20948_Stat_Err;
   }
   if (sensors & ICM_20948_Internal_Gyr)
   {
     ICM_20948_GYRO_CONFIG_1_t reg;
     retval |= ICM_20948_set_bank(pdev, 2); // Must be in the right bank
-    retval |= ICM_20948_execute_r(pdev, AGB2_REG_GYRO_CONFIG_1, (uint8_t *)&reg, sizeof(ICM_20948_GYRO_CONFIG_1_t));
+    retval |= ICM_20948_execute_r(pdev, AGB2_REG_GYRO_CONFIG_1, (uint8_t*)&reg, sizeof(ICM_20948_GYRO_CONFIG_1_t));
     reg.GYRO_DLPFCFG = cfg.g;
-    retval |= ICM_20948_execute_w(pdev, AGB2_REG_GYRO_CONFIG_1, (uint8_t *)&reg, sizeof(ICM_20948_GYRO_CONFIG_1_t));
+    retval |= ICM_20948_execute_w(pdev, AGB2_REG_GYRO_CONFIG_1, (uint8_t*)&reg, sizeof(ICM_20948_GYRO_CONFIG_1_t));
     // Check the data was written correctly
-    retval |= ICM_20948_execute_r(pdev, AGB2_REG_GYRO_CONFIG_1, (uint8_t *)&reg, sizeof(ICM_20948_GYRO_CONFIG_1_t));
+    retval |= ICM_20948_execute_r(pdev, AGB2_REG_GYRO_CONFIG_1, (uint8_t*)&reg, sizeof(ICM_20948_GYRO_CONFIG_1_t));
     if (reg.GYRO_DLPFCFG != cfg.g) retval |= ICM_20948_Stat_Err;
   }
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_enable_dlpf(ICM_20948_Device_t *pdev, ICM_20948_InternalSensorID_bm sensors, bool enable)
+ICM_20948_Status_e ICM_20948_enable_dlpf(ICM_20948_Device_t* pdev, ICM_20948_InternalSensorID_bm sensors, bool enable)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
 
@@ -766,7 +758,7 @@ ICM_20948_Status_e ICM_20948_enable_dlpf(ICM_20948_Device_t *pdev, ICM_20948_Int
   {
     ICM_20948_ACCEL_CONFIG_t reg;
     retval |= ICM_20948_set_bank(pdev, 2); // Must be in the right bank
-    retval |= ICM_20948_execute_r(pdev, AGB2_REG_ACCEL_CONFIG, (uint8_t *)&reg, sizeof(ICM_20948_ACCEL_CONFIG_t));
+    retval |= ICM_20948_execute_r(pdev, AGB2_REG_ACCEL_CONFIG, (uint8_t*)&reg, sizeof(ICM_20948_ACCEL_CONFIG_t));
     if (enable)
     {
       reg.ACCEL_FCHOICE = 1;
@@ -775,9 +767,9 @@ ICM_20948_Status_e ICM_20948_enable_dlpf(ICM_20948_Device_t *pdev, ICM_20948_Int
     {
       reg.ACCEL_FCHOICE = 0;
     }
-    retval |= ICM_20948_execute_w(pdev, AGB2_REG_ACCEL_CONFIG, (uint8_t *)&reg, sizeof(ICM_20948_ACCEL_CONFIG_t));
+    retval |= ICM_20948_execute_w(pdev, AGB2_REG_ACCEL_CONFIG, (uint8_t*)&reg, sizeof(ICM_20948_ACCEL_CONFIG_t));
     // Check the data was written correctly
-    retval |= ICM_20948_execute_r(pdev, AGB2_REG_ACCEL_CONFIG, (uint8_t *)&reg, sizeof(ICM_20948_ACCEL_CONFIG_t));
+    retval |= ICM_20948_execute_r(pdev, AGB2_REG_ACCEL_CONFIG, (uint8_t*)&reg, sizeof(ICM_20948_ACCEL_CONFIG_t));
     if (enable)
     {
       if (reg.ACCEL_FCHOICE != 1) retval |= ICM_20948_Stat_Err;
@@ -791,7 +783,7 @@ ICM_20948_Status_e ICM_20948_enable_dlpf(ICM_20948_Device_t *pdev, ICM_20948_Int
   {
     ICM_20948_GYRO_CONFIG_1_t reg;
     retval |= ICM_20948_set_bank(pdev, 2); // Must be in the right bank
-    retval |= ICM_20948_execute_r(pdev, AGB2_REG_GYRO_CONFIG_1, (uint8_t *)&reg, sizeof(ICM_20948_GYRO_CONFIG_1_t));
+    retval |= ICM_20948_execute_r(pdev, AGB2_REG_GYRO_CONFIG_1, (uint8_t*)&reg, sizeof(ICM_20948_GYRO_CONFIG_1_t));
     if (enable)
     {
       reg.GYRO_FCHOICE = 1;
@@ -800,9 +792,9 @@ ICM_20948_Status_e ICM_20948_enable_dlpf(ICM_20948_Device_t *pdev, ICM_20948_Int
     {
       reg.GYRO_FCHOICE = 0;
     }
-    retval |= ICM_20948_execute_w(pdev, AGB2_REG_GYRO_CONFIG_1, (uint8_t *)&reg, sizeof(ICM_20948_GYRO_CONFIG_1_t));
+    retval |= ICM_20948_execute_w(pdev, AGB2_REG_GYRO_CONFIG_1, (uint8_t*)&reg, sizeof(ICM_20948_GYRO_CONFIG_1_t));
     // Check the data was written correctly
-    retval |= ICM_20948_execute_r(pdev, AGB2_REG_GYRO_CONFIG_1, (uint8_t *)&reg, sizeof(ICM_20948_GYRO_CONFIG_1_t));
+    retval |= ICM_20948_execute_r(pdev, AGB2_REG_GYRO_CONFIG_1, (uint8_t*)&reg, sizeof(ICM_20948_GYRO_CONFIG_1_t));
     if (enable)
     {
       if (reg.GYRO_FCHOICE != 1) retval |= ICM_20948_Stat_Err;
@@ -815,7 +807,7 @@ ICM_20948_Status_e ICM_20948_enable_dlpf(ICM_20948_Device_t *pdev, ICM_20948_Int
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_set_sample_rate(ICM_20948_Device_t *pdev, ICM_20948_InternalSensorID_bm sensors, ICM_20948_smplrt_t smplrt)
+ICM_20948_Status_e ICM_20948_set_sample_rate(ICM_20948_Device_t* pdev, ICM_20948_InternalSensorID_bm sensors, ICM_20948_smplrt_t smplrt)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
 
@@ -842,7 +834,7 @@ ICM_20948_Status_e ICM_20948_set_sample_rate(ICM_20948_Device_t *pdev, ICM_20948
 }
 
 // Interface Things
-ICM_20948_Status_e ICM_20948_i2c_master_passthrough(ICM_20948_Device_t *pdev, bool passthrough)
+ICM_20948_Status_e ICM_20948_i2c_master_passthrough(ICM_20948_Device_t* pdev, bool passthrough)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
 
@@ -852,13 +844,13 @@ ICM_20948_Status_e ICM_20948_i2c_master_passthrough(ICM_20948_Device_t *pdev, bo
   {
     return retval;
   }
-  retval = ICM_20948_execute_r(pdev, AGB0_REG_INT_PIN_CONFIG, (uint8_t *)&reg, sizeof(ICM_20948_INT_PIN_CFG_t));
+  retval = ICM_20948_execute_r(pdev, AGB0_REG_INT_PIN_CONFIG, (uint8_t*)&reg, sizeof(ICM_20948_INT_PIN_CFG_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
   }
   reg.BYPASS_EN = passthrough;
-  retval = ICM_20948_execute_w(pdev, AGB0_REG_INT_PIN_CONFIG, (uint8_t *)&reg, sizeof(ICM_20948_INT_PIN_CFG_t));
+  retval = ICM_20948_execute_w(pdev, AGB0_REG_INT_PIN_CONFIG, (uint8_t*)&reg, sizeof(ICM_20948_INT_PIN_CFG_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -867,7 +859,7 @@ ICM_20948_Status_e ICM_20948_i2c_master_passthrough(ICM_20948_Device_t *pdev, bo
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_i2c_master_enable(ICM_20948_Device_t *pdev, bool enable)
+ICM_20948_Status_e ICM_20948_i2c_master_enable(ICM_20948_Device_t* pdev, bool enable)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
 
@@ -884,14 +876,14 @@ ICM_20948_Status_e ICM_20948_i2c_master_enable(ICM_20948_Device_t *pdev, bool en
   {
     return retval;
   }
-  retval = ICM_20948_execute_r(pdev, AGB3_REG_I2C_MST_CTRL, (uint8_t *)&ctrl, sizeof(ICM_20948_I2C_MST_CTRL_t));
+  retval = ICM_20948_execute_r(pdev, AGB3_REG_I2C_MST_CTRL, (uint8_t*)&ctrl, sizeof(ICM_20948_I2C_MST_CTRL_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
   }
   ctrl.I2C_MST_CLK = 0x07; // corresponds to 345.6 kHz, good for up to 400 kHz
   ctrl.I2C_MST_P_NSR = 1;
-  retval = ICM_20948_execute_w(pdev, AGB3_REG_I2C_MST_CTRL, (uint8_t *)&ctrl, sizeof(ICM_20948_I2C_MST_CTRL_t));
+  retval = ICM_20948_execute_w(pdev, AGB3_REG_I2C_MST_CTRL, (uint8_t*)&ctrl, sizeof(ICM_20948_I2C_MST_CTRL_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -903,7 +895,7 @@ ICM_20948_Status_e ICM_20948_i2c_master_enable(ICM_20948_Device_t *pdev, bool en
   {
     return retval;
   }
-  retval = ICM_20948_execute_r(pdev, AGB0_REG_USER_CTRL, (uint8_t *)&reg, sizeof(ICM_20948_USER_CTRL_t));
+  retval = ICM_20948_execute_r(pdev, AGB0_REG_USER_CTRL, (uint8_t*)&reg, sizeof(ICM_20948_USER_CTRL_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -916,7 +908,7 @@ ICM_20948_Status_e ICM_20948_i2c_master_enable(ICM_20948_Device_t *pdev, bool en
   {
     reg.I2C_MST_EN = 0;
   }
-  retval = ICM_20948_execute_w(pdev, AGB0_REG_USER_CTRL, (uint8_t *)&reg, sizeof(ICM_20948_USER_CTRL_t));
+  retval = ICM_20948_execute_w(pdev, AGB0_REG_USER_CTRL, (uint8_t*)&reg, sizeof(ICM_20948_USER_CTRL_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -925,7 +917,7 @@ ICM_20948_Status_e ICM_20948_i2c_master_enable(ICM_20948_Device_t *pdev, bool en
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_i2c_master_reset(ICM_20948_Device_t *pdev)
+ICM_20948_Status_e ICM_20948_i2c_master_reset(ICM_20948_Device_t* pdev)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
 
@@ -936,7 +928,7 @@ ICM_20948_Status_e ICM_20948_i2c_master_reset(ICM_20948_Device_t *pdev)
     return retval;
   }
 
-  retval = ICM_20948_execute_r(pdev, AGB0_REG_USER_CTRL, (uint8_t *)&ctrl, sizeof(ICM_20948_USER_CTRL_t));
+  retval = ICM_20948_execute_r(pdev, AGB0_REG_USER_CTRL, (uint8_t*)&ctrl, sizeof(ICM_20948_USER_CTRL_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -944,7 +936,7 @@ ICM_20948_Status_e ICM_20948_i2c_master_reset(ICM_20948_Device_t *pdev)
 
   ctrl.I2C_MST_RST = 1; //Reset!
 
-  retval = ICM_20948_execute_w(pdev, AGB0_REG_USER_CTRL, (uint8_t *)&ctrl, sizeof(ICM_20948_USER_CTRL_t));
+  retval = ICM_20948_execute_w(pdev, AGB0_REG_USER_CTRL, (uint8_t*)&ctrl, sizeof(ICM_20948_USER_CTRL_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -952,7 +944,7 @@ ICM_20948_Status_e ICM_20948_i2c_master_reset(ICM_20948_Device_t *pdev)
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_i2c_controller_configure_peripheral(ICM_20948_Device_t *pdev, uint8_t peripheral, uint8_t addr, uint8_t reg, uint8_t len, bool Rw, bool enable, bool data_only, bool grp, bool swap, uint8_t dataOut)
+ICM_20948_Status_e ICM_20948_i2c_controller_configure_peripheral(ICM_20948_Device_t* pdev, uint8_t peripheral, uint8_t addr, uint8_t reg, uint8_t len, bool Rw, bool enable, bool data_only, bool grp, bool swap, uint8_t dataOut)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
 
@@ -1008,7 +1000,7 @@ ICM_20948_Status_e ICM_20948_i2c_controller_configure_peripheral(ICM_20948_Devic
   {
     address.RNW = 0; // Make sure bit is clear (just in case there is any garbage in that RAM location)
   }
-  retval = ICM_20948_execute_w(pdev, periph_addr_reg, (uint8_t *)&address, sizeof(ICM_20948_I2C_PERIPHX_ADDR_t));
+  retval = ICM_20948_execute_w(pdev, periph_addr_reg, (uint8_t*)&address, sizeof(ICM_20948_I2C_PERIPHX_ADDR_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -1019,7 +1011,7 @@ ICM_20948_Status_e ICM_20948_i2c_controller_configure_peripheral(ICM_20948_Devic
   {
     ICM_20948_I2C_PERIPHX_DO_t dataOutByte;
     dataOutByte.DO = dataOut;
-    retval = ICM_20948_execute_w(pdev, periph_do_reg, (uint8_t *)&dataOutByte, sizeof(ICM_20948_I2C_PERIPHX_DO_t));
+    retval = ICM_20948_execute_w(pdev, periph_do_reg, (uint8_t*)&dataOutByte, sizeof(ICM_20948_I2C_PERIPHX_DO_t));
     if (retval != ICM_20948_Stat_Ok)
     {
       return retval;
@@ -1029,7 +1021,7 @@ ICM_20948_Status_e ICM_20948_i2c_controller_configure_peripheral(ICM_20948_Devic
   // Set the peripheral sub-address (register address)
   ICM_20948_I2C_PERIPHX_REG_t subaddress;
   subaddress.REG = reg;
-  retval = ICM_20948_execute_w(pdev, periph_reg_reg, (uint8_t *)&subaddress, sizeof(ICM_20948_I2C_PERIPHX_REG_t));
+  retval = ICM_20948_execute_w(pdev, periph_reg_reg, (uint8_t*)&subaddress, sizeof(ICM_20948_I2C_PERIPHX_REG_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -1042,7 +1034,7 @@ ICM_20948_Status_e ICM_20948_i2c_controller_configure_peripheral(ICM_20948_Devic
   ctrl.REG_DIS = data_only;
   ctrl.GRP = grp;
   ctrl.BYTE_SW = swap;
-  retval = ICM_20948_execute_w(pdev, periph_ctrl_reg, (uint8_t *)&ctrl, sizeof(ICM_20948_I2C_PERIPHX_CTRL_t));
+  retval = ICM_20948_execute_w(pdev, periph_ctrl_reg, (uint8_t*)&ctrl, sizeof(ICM_20948_I2C_PERIPHX_CTRL_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -1052,7 +1044,7 @@ ICM_20948_Status_e ICM_20948_i2c_controller_configure_peripheral(ICM_20948_Devic
 }
 
 // Higher Level
-ICM_20948_Status_e ICM_20948_get_agmt(ICM_20948_Device_t *pdev, ICM_20948_AGMT_t *pagmt)
+ICM_20948_Status_e ICM_20948_get_agmt(ICM_20948_Device_t* pdev, ICM_20948_AGMT_t* pagmt)
 {
   if (pagmt == NULL)
   {
@@ -1086,22 +1078,22 @@ ICM_20948_Status_e ICM_20948_get_agmt(ICM_20948_Device_t *pdev, ICM_20948_AGMT_t
   // Get settings to be able to compute scaled values
   retval |= ICM_20948_set_bank(pdev, 2);
   ICM_20948_ACCEL_CONFIG_t acfg;
-  retval |= ICM_20948_execute_r(pdev, (uint8_t)AGB2_REG_ACCEL_CONFIG, (uint8_t *)&acfg, 1 * sizeof(acfg));
+  retval |= ICM_20948_execute_r(pdev, (uint8_t)AGB2_REG_ACCEL_CONFIG, (uint8_t*)&acfg, 1 * sizeof(acfg));
   pagmt->fss.a = acfg.ACCEL_FS_SEL; // Worth noting that without explicitly setting the FS range of the accelerometer it was showing the register value for +/- 2g but the reported values were actually scaled to the +/- 16g range
-                                    // Wait a minute... now it seems like this problem actually comes from the digital low-pass filter. When enabled the value is 1/8 what it should be...
-  retval |= ICM_20948_set_bank(pdev, 2);
-  ICM_20948_GYRO_CONFIG_1_t gcfg1;
-  retval |= ICM_20948_execute_r(pdev, (uint8_t)AGB2_REG_GYRO_CONFIG_1, (uint8_t *)&gcfg1, 1 * sizeof(gcfg1));
-  pagmt->fss.g = gcfg1.GYRO_FS_SEL;
-  ICM_20948_ACCEL_CONFIG_2_t acfg2;
-  retval |= ICM_20948_execute_r(pdev, (uint8_t)AGB2_REG_ACCEL_CONFIG_2, (uint8_t *)&acfg2, 1 * sizeof(acfg2));
+  // Wait a minute... now it seems like this problem actually comes from the digital low-pass filter. When enabled the value is 1/8 what it should be...
+retval |= ICM_20948_set_bank(pdev, 2);
+ICM_20948_GYRO_CONFIG_1_t gcfg1;
+retval |= ICM_20948_execute_r(pdev, (uint8_t)AGB2_REG_GYRO_CONFIG_1, (uint8_t*)&gcfg1, 1 * sizeof(gcfg1));
+pagmt->fss.g = gcfg1.GYRO_FS_SEL;
+ICM_20948_ACCEL_CONFIG_2_t acfg2;
+retval |= ICM_20948_execute_r(pdev, (uint8_t)AGB2_REG_ACCEL_CONFIG_2, (uint8_t*)&acfg2, 1 * sizeof(acfg2));
 
-  return retval;
+return retval;
 }
 
 // FIFO
 
-ICM_20948_Status_e ICM_20948_enable_FIFO(ICM_20948_Device_t *pdev, bool enable)
+ICM_20948_Status_e ICM_20948_enable_FIFO(ICM_20948_Device_t* pdev, bool enable)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
 
@@ -1112,7 +1104,7 @@ ICM_20948_Status_e ICM_20948_enable_FIFO(ICM_20948_Device_t *pdev, bool enable)
     return retval;
   }
 
-  retval = ICM_20948_execute_r(pdev, AGB0_REG_USER_CTRL, (uint8_t *)&ctrl, sizeof(ICM_20948_USER_CTRL_t));
+  retval = ICM_20948_execute_r(pdev, AGB0_REG_USER_CTRL, (uint8_t*)&ctrl, sizeof(ICM_20948_USER_CTRL_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -1123,7 +1115,7 @@ ICM_20948_Status_e ICM_20948_enable_FIFO(ICM_20948_Device_t *pdev, bool enable)
   else
     ctrl.FIFO_EN = 0;
 
-  retval = ICM_20948_execute_w(pdev, AGB0_REG_USER_CTRL, (uint8_t *)&ctrl, sizeof(ICM_20948_USER_CTRL_t));
+  retval = ICM_20948_execute_w(pdev, AGB0_REG_USER_CTRL, (uint8_t*)&ctrl, sizeof(ICM_20948_USER_CTRL_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -1131,7 +1123,7 @@ ICM_20948_Status_e ICM_20948_enable_FIFO(ICM_20948_Device_t *pdev, bool enable)
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_reset_FIFO(ICM_20948_Device_t *pdev)
+ICM_20948_Status_e ICM_20948_reset_FIFO(ICM_20948_Device_t* pdev)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
 
@@ -1142,7 +1134,7 @@ ICM_20948_Status_e ICM_20948_reset_FIFO(ICM_20948_Device_t *pdev)
     return retval;
   }
 
-  retval = ICM_20948_execute_r(pdev, AGB0_REG_FIFO_RST, (uint8_t *)&ctrl, sizeof(ICM_20948_FIFO_RST_t));
+  retval = ICM_20948_execute_r(pdev, AGB0_REG_FIFO_RST, (uint8_t*)&ctrl, sizeof(ICM_20948_FIFO_RST_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -1150,7 +1142,7 @@ ICM_20948_Status_e ICM_20948_reset_FIFO(ICM_20948_Device_t *pdev)
 
   ctrl.FIFO_RESET = 0x1F; // Datasheet says "FIFO_RESET[4:0]"
 
-  retval = ICM_20948_execute_w(pdev, AGB0_REG_FIFO_RST, (uint8_t *)&ctrl, sizeof(ICM_20948_FIFO_RST_t));
+  retval = ICM_20948_execute_w(pdev, AGB0_REG_FIFO_RST, (uint8_t*)&ctrl, sizeof(ICM_20948_FIFO_RST_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -1160,7 +1152,7 @@ ICM_20948_Status_e ICM_20948_reset_FIFO(ICM_20948_Device_t *pdev)
 
   ctrl.FIFO_RESET = 0x1E; // The InvenSense Nucleo examples write 0x1F followed by 0x1E
 
-  retval = ICM_20948_execute_w(pdev, AGB0_REG_FIFO_RST, (uint8_t *)&ctrl, sizeof(ICM_20948_FIFO_RST_t));
+  retval = ICM_20948_execute_w(pdev, AGB0_REG_FIFO_RST, (uint8_t*)&ctrl, sizeof(ICM_20948_FIFO_RST_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -1169,7 +1161,7 @@ ICM_20948_Status_e ICM_20948_reset_FIFO(ICM_20948_Device_t *pdev)
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_set_FIFO_mode(ICM_20948_Device_t *pdev, bool snapshot)
+ICM_20948_Status_e ICM_20948_set_FIFO_mode(ICM_20948_Device_t* pdev, bool snapshot)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
 
@@ -1180,7 +1172,7 @@ ICM_20948_Status_e ICM_20948_set_FIFO_mode(ICM_20948_Device_t *pdev, bool snapsh
     return retval;
   }
 
-  retval = ICM_20948_execute_r(pdev, AGB0_REG_FIFO_MODE, (uint8_t *)&ctrl, sizeof(ICM_20948_FIFO_MODE_t));
+  retval = ICM_20948_execute_r(pdev, AGB0_REG_FIFO_MODE, (uint8_t*)&ctrl, sizeof(ICM_20948_FIFO_MODE_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -1191,7 +1183,7 @@ ICM_20948_Status_e ICM_20948_set_FIFO_mode(ICM_20948_Device_t *pdev, bool snapsh
   else
     ctrl.FIFO_MODE = 0;
 
-  retval = ICM_20948_execute_w(pdev, AGB0_REG_FIFO_MODE, (uint8_t *)&ctrl, sizeof(ICM_20948_FIFO_MODE_t));
+  retval = ICM_20948_execute_w(pdev, AGB0_REG_FIFO_MODE, (uint8_t*)&ctrl, sizeof(ICM_20948_FIFO_MODE_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -1199,7 +1191,7 @@ ICM_20948_Status_e ICM_20948_set_FIFO_mode(ICM_20948_Device_t *pdev, bool snapsh
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_get_FIFO_count(ICM_20948_Device_t *pdev, uint16_t *count)
+ICM_20948_Status_e ICM_20948_get_FIFO_count(ICM_20948_Device_t* pdev, uint16_t* count)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
 
@@ -1211,7 +1203,7 @@ ICM_20948_Status_e ICM_20948_get_FIFO_count(ICM_20948_Device_t *pdev, uint16_t *
     return retval;
   }
 
-  retval = ICM_20948_execute_r(pdev, AGB0_REG_FIFO_COUNT_H, (uint8_t *)&ctrlh, sizeof(ICM_20948_FIFO_COUNTH_t));
+  retval = ICM_20948_execute_r(pdev, AGB0_REG_FIFO_COUNT_H, (uint8_t*)&ctrlh, sizeof(ICM_20948_FIFO_COUNTH_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -1219,7 +1211,7 @@ ICM_20948_Status_e ICM_20948_get_FIFO_count(ICM_20948_Device_t *pdev, uint16_t *
 
   ctrlh.FIFO_COUNTH &= 0x1F; // Datasheet says "FIFO_CNT[12:8]"
 
-  retval = ICM_20948_execute_r(pdev, AGB0_REG_FIFO_COUNT_L, (uint8_t *)&ctrll, sizeof(ICM_20948_FIFO_COUNTL_t));
+  retval = ICM_20948_execute_r(pdev, AGB0_REG_FIFO_COUNT_L, (uint8_t*)&ctrll, sizeof(ICM_20948_FIFO_COUNTL_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -1230,7 +1222,7 @@ ICM_20948_Status_e ICM_20948_get_FIFO_count(ICM_20948_Device_t *pdev, uint16_t *
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_read_FIFO(ICM_20948_Device_t *pdev, uint8_t *data, uint8_t len)
+ICM_20948_Status_e ICM_20948_read_FIFO(ICM_20948_Device_t* pdev, uint8_t* data, uint8_t len)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
 
@@ -1251,7 +1243,7 @@ ICM_20948_Status_e ICM_20948_read_FIFO(ICM_20948_Device_t *pdev, uint8_t *data, 
 
 // DMP
 
-ICM_20948_Status_e ICM_20948_enable_DMP(ICM_20948_Device_t *pdev, bool enable)
+ICM_20948_Status_e ICM_20948_enable_DMP(ICM_20948_Device_t* pdev, bool enable)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
 
@@ -1262,7 +1254,7 @@ ICM_20948_Status_e ICM_20948_enable_DMP(ICM_20948_Device_t *pdev, bool enable)
     return retval;
   }
 
-  retval = ICM_20948_execute_r(pdev, AGB0_REG_USER_CTRL, (uint8_t *)&ctrl, sizeof(ICM_20948_USER_CTRL_t));
+  retval = ICM_20948_execute_r(pdev, AGB0_REG_USER_CTRL, (uint8_t*)&ctrl, sizeof(ICM_20948_USER_CTRL_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -1273,7 +1265,7 @@ ICM_20948_Status_e ICM_20948_enable_DMP(ICM_20948_Device_t *pdev, bool enable)
   else
     ctrl.DMP_EN = 0;
 
-  retval = ICM_20948_execute_w(pdev, AGB0_REG_USER_CTRL, (uint8_t *)&ctrl, sizeof(ICM_20948_USER_CTRL_t));
+  retval = ICM_20948_execute_w(pdev, AGB0_REG_USER_CTRL, (uint8_t*)&ctrl, sizeof(ICM_20948_USER_CTRL_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -1281,7 +1273,7 @@ ICM_20948_Status_e ICM_20948_enable_DMP(ICM_20948_Device_t *pdev, bool enable)
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_reset_DMP(ICM_20948_Device_t *pdev)
+ICM_20948_Status_e ICM_20948_reset_DMP(ICM_20948_Device_t* pdev)
 {
   ICM_20948_Status_e retval = ICM_20948_Stat_Ok;
 
@@ -1292,7 +1284,7 @@ ICM_20948_Status_e ICM_20948_reset_DMP(ICM_20948_Device_t *pdev)
     return retval;
   }
 
-  retval = ICM_20948_execute_r(pdev, AGB0_REG_USER_CTRL, (uint8_t *)&ctrl, sizeof(ICM_20948_USER_CTRL_t));
+  retval = ICM_20948_execute_r(pdev, AGB0_REG_USER_CTRL, (uint8_t*)&ctrl, sizeof(ICM_20948_USER_CTRL_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -1300,7 +1292,7 @@ ICM_20948_Status_e ICM_20948_reset_DMP(ICM_20948_Device_t *pdev)
 
   ctrl.DMP_RST = 1;
 
-  retval = ICM_20948_execute_w(pdev, AGB0_REG_USER_CTRL, (uint8_t *)&ctrl, sizeof(ICM_20948_USER_CTRL_t));
+  retval = ICM_20948_execute_w(pdev, AGB0_REG_USER_CTRL, (uint8_t*)&ctrl, sizeof(ICM_20948_USER_CTRL_t));
   if (retval != ICM_20948_Stat_Ok)
   {
     return retval;
@@ -1308,7 +1300,7 @@ ICM_20948_Status_e ICM_20948_reset_DMP(ICM_20948_Device_t *pdev)
   return retval;
 }
 
-ICM_20948_Status_e ICM_20948_firmware_load(ICM_20948_Device_t *pdev)
+ICM_20948_Status_e ICM_20948_firmware_load(ICM_20948_Device_t* pdev)
 {
 #if defined(ICM_20948_USE_DMP)
   return (inv_icm20948_firmware_load(pdev, dmp3_image, sizeof(dmp3_image), DMP_LOAD_START));
@@ -1323,12 +1315,12 @@ ICM_20948_Status_e ICM_20948_firmware_load(ICM_20948_Device_t *pdev)
 * @param[in] load_addr  address to loading the image
 * @return 0 in case of success, -1 for any error
 */
-ICM_20948_Status_e inv_icm20948_firmware_load(ICM_20948_Device_t *pdev, const unsigned char *data_start, unsigned short size_start, unsigned short load_addr)
+ICM_20948_Status_e inv_icm20948_firmware_load(ICM_20948_Device_t* pdev, const unsigned char* data_start, unsigned short size_start, unsigned short load_addr)
 {
   int write_size;
   ICM_20948_Status_e result = ICM_20948_Stat_Ok;
   unsigned short memaddr;
-  const unsigned char *data;
+  const unsigned char* data;
   unsigned short size;
   unsigned char data_cmp[INV_MAX_SERIAL_READ];
   int flag = 0;
@@ -1372,10 +1364,11 @@ ICM_20948_Status_e inv_icm20948_firmware_load(ICM_20948_Device_t *pdev, const un
       write_size = (memaddr & 0xff) + write_size - 0x100;
     }
 #ifdef ICM_20948_USE_PROGMEM_FOR_DMP
-    memcpy_P(data_not_pg, data, write_size);  // Suggested by @HyperKokichi in Issue #63
-    result = inv_icm20948_write_mems(pdev, memaddr, write_size, (unsigned char *)data_not_pg);
+    // memcpy_P(data_not_pg, data, write_size);  // Suggested by @HyperKokichi in Issue #63
+    memcpy(data_not_pg, data, write_size);  // Suggested by @HyperKokichi in Issue #63
+    result = inv_icm20948_write_mems(pdev, memaddr, write_size, (unsigned char*)data_not_pg);
 #else
-    result = inv_icm20948_write_mems(pdev, memaddr, write_size, (unsigned char *)data);
+    result = inv_icm20948_write_mems(pdev, memaddr, write_size, (unsigned char*)data);
 #endif
     if (result != ICM_20948_Stat_Ok)
       return result;
@@ -1391,6 +1384,7 @@ ICM_20948_Status_e inv_icm20948_firmware_load(ICM_20948_Device_t *pdev, const un
   memaddr = load_addr;
   while (size > 0)
   {
+// printk("remain:%d\n",size);
     //write_size = min(size, INV_MAX_SERIAL_READ); // Read in chunks of INV_MAX_SERIAL_READ
     if (size <= INV_MAX_SERIAL_READ) // Read in chunks of INV_MAX_SERIAL_READ
       write_size = size;
@@ -1405,12 +1399,16 @@ ICM_20948_Status_e inv_icm20948_firmware_load(ICM_20948_Device_t *pdev, const un
     if (result != ICM_20948_Stat_Ok)
       flag++;                               // Error, DMP not written correctly
 #ifdef ICM_20948_USE_PROGMEM_FOR_DMP
-    memcpy_P(data_not_pg, data, write_size);  // Suggested by @HyperKokichi in Issue #63
+    // memcpy_P(data_not_pg, data, write_size);  // Suggested by @HyperKokichi in Issue #63
+    memcpy(data_not_pg, data, write_size);  // Suggested by @HyperKokichi in Issue #63
     if (memcmp(data_cmp, data_not_pg, write_size))
 #else
     if (memcmp(data_cmp, data, write_size)) // Compare the data
 #endif
-      return ICM_20948_Stat_DMPVerifyFail;
+      {printk("size:%d\n", write_size);
+      for(int i=0;i<write_size;i++) printk("%x ", data_cmp[i]); printk("\n");
+      for(int i=0;i<write_size;i++) printk("%x ", data[i]);printk("\n");
+      return ICM_20948_Stat_DMPVerifyFail;}
     data += write_size;
     size -= write_size;
     memaddr += write_size;
@@ -1430,7 +1428,7 @@ ICM_20948_Status_e inv_icm20948_firmware_load(ICM_20948_Device_t *pdev, const un
   return result;
 }
 
-ICM_20948_Status_e ICM_20948_set_dmp_start_address(ICM_20948_Device_t *pdev, unsigned short address)
+ICM_20948_Status_e ICM_20948_set_dmp_start_address(ICM_20948_Device_t* pdev, unsigned short address)
 {
   ICM_20948_Status_e result = ICM_20948_Stat_Ok;
 
@@ -1461,7 +1459,7 @@ ICM_20948_Status_e ICM_20948_set_dmp_start_address(ICM_20948_Device_t *pdev, uns
   }
 
   // Write the sensor control bits into memory address AGB2_REG_PRGM_START_ADDRH
-  result = ICM_20948_execute_w(pdev, AGB2_REG_PRGM_START_ADDRH, (uint8_t *)start_address, 2);
+  result = ICM_20948_execute_w(pdev, AGB2_REG_PRGM_START_ADDRH, (uint8_t*)start_address, 2);
 
   return result;
 }
@@ -1473,7 +1471,7 @@ ICM_20948_Status_e ICM_20948_set_dmp_start_address(ICM_20948_Device_t *pdev, uns
 *  @param[out]  output data from the register
 *  @return     0 if successful.
 */
-ICM_20948_Status_e inv_icm20948_write_mems(ICM_20948_Device_t *pdev, unsigned short reg, unsigned int length, const unsigned char *data)
+ICM_20948_Status_e inv_icm20948_write_mems(ICM_20948_Device_t* pdev, unsigned short reg, unsigned int length, const unsigned char* data)
 {
   ICM_20948_Status_e result = ICM_20948_Stat_Ok;
   unsigned int bytesWritten = 0;
@@ -1526,7 +1524,7 @@ ICM_20948_Status_e inv_icm20948_write_mems(ICM_20948_Device_t *pdev, unsigned sh
 
     /* Write data */
 
-    result = ICM_20948_execute_w(pdev, AGB0_REG_MEM_R_W, (uint8_t *)&data[bytesWritten], thisLen);
+    result = ICM_20948_execute_w(pdev, AGB0_REG_MEM_R_W, (uint8_t*)&data[bytesWritten], thisLen);
     if (result != ICM_20948_Stat_Ok)
     {
       return result;
@@ -1546,7 +1544,7 @@ ICM_20948_Status_e inv_icm20948_write_mems(ICM_20948_Device_t *pdev, unsigned sh
 *  @param[in]  input data from the register
 *  @return     0 if successful.
 */
-ICM_20948_Status_e inv_icm20948_read_mems(ICM_20948_Device_t *pdev, unsigned short reg, unsigned int length, unsigned char *data)
+ICM_20948_Status_e inv_icm20948_read_mems(ICM_20948_Device_t* pdev, unsigned short reg, unsigned int length, unsigned char* data)
 {
   ICM_20948_Status_e result = ICM_20948_Stat_Ok;
   unsigned int bytesRead = 0;
@@ -1582,9 +1580,9 @@ ICM_20948_Status_e inv_icm20948_read_mems(ICM_20948_Device_t *pdev, unsigned sho
     lStartAddrSelected = (reg & 0xff);
 
     /* Sets the starting read or write address for the selected memory, inside of the selected page (see MEM_SEL Register).
-		   Contents are changed after read or write of the selected memory.
-		   This register must be written prior to each access to initialize the register to the proper starting address.
-		   The address will auto increment during burst transactions.  Two consecutive bursts without re-initializing the start address would skip one address. */
+       Contents are changed after read or write of the selected memory.
+       This register must be written prior to each access to initialize the register to the proper starting address.
+       The address will auto increment during burst transactions.  Two consecutive bursts without re-initializing the start address would skip one address. */
 
     result = ICM_20948_execute_w(pdev, AGB0_REG_MEM_START_ADDR, &lStartAddrSelected, 1);
     if (result != ICM_20948_Stat_Ok)
@@ -1612,7 +1610,7 @@ ICM_20948_Status_e inv_icm20948_read_mems(ICM_20948_Device_t *pdev, unsigned sho
   return result;
 }
 
-ICM_20948_Status_e inv_icm20948_set_dmp_sensor_period(ICM_20948_Device_t *pdev, enum DMP_ODR_Registers odr_reg, uint16_t interval)
+ICM_20948_Status_e inv_icm20948_set_dmp_sensor_period(ICM_20948_Device_t* pdev, enum DMP_ODR_Registers odr_reg, uint16_t interval)
 {
   // Set the ODR registers and clear the ODR counter
 
@@ -1652,68 +1650,68 @@ ICM_20948_Status_e inv_icm20948_set_dmp_sensor_period(ICM_20948_Device_t *pdev, 
   {
   case DMP_ODR_Reg_Cpass_Calibr:
   {
-    result = inv_icm20948_write_mems(pdev, ODR_CPASS_CALIBR, 2, (const unsigned char *)&odr_reg_val);
-    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_CPASS_CALIBR, 2, (const unsigned char *)&odr_count_zero);
+    result = inv_icm20948_write_mems(pdev, ODR_CPASS_CALIBR, 2, (const unsigned char*)&odr_reg_val);
+    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_CPASS_CALIBR, 2, (const unsigned char*)&odr_count_zero);
   }
   break;
   case DMP_ODR_Reg_Gyro_Calibr:
   {
-    result = inv_icm20948_write_mems(pdev, ODR_GYRO_CALIBR, 2, (const unsigned char *)&odr_reg_val);
-    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_GYRO_CALIBR, 2, (const unsigned char *)&odr_count_zero);
+    result = inv_icm20948_write_mems(pdev, ODR_GYRO_CALIBR, 2, (const unsigned char*)&odr_reg_val);
+    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_GYRO_CALIBR, 2, (const unsigned char*)&odr_count_zero);
   }
   break;
   case DMP_ODR_Reg_Pressure:
   {
-    result = inv_icm20948_write_mems(pdev, ODR_PRESSURE, 2, (const unsigned char *)&odr_reg_val);
-    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_PRESSURE, 2, (const unsigned char *)&odr_count_zero);
+    result = inv_icm20948_write_mems(pdev, ODR_PRESSURE, 2, (const unsigned char*)&odr_reg_val);
+    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_PRESSURE, 2, (const unsigned char*)&odr_count_zero);
   }
   break;
   case DMP_ODR_Reg_Geomag:
   {
-    result = inv_icm20948_write_mems(pdev, ODR_GEOMAG, 2, (const unsigned char *)&odr_reg_val);
-    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_GEOMAG, 2, (const unsigned char *)&odr_count_zero);
+    result = inv_icm20948_write_mems(pdev, ODR_GEOMAG, 2, (const unsigned char*)&odr_reg_val);
+    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_GEOMAG, 2, (const unsigned char*)&odr_count_zero);
   }
   break;
   case DMP_ODR_Reg_PQuat6:
   {
-    result = inv_icm20948_write_mems(pdev, ODR_PQUAT6, 2, (const unsigned char *)&odr_reg_val);
-    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_PQUAT6, 2, (const unsigned char *)&odr_count_zero);
+    result = inv_icm20948_write_mems(pdev, ODR_PQUAT6, 2, (const unsigned char*)&odr_reg_val);
+    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_PQUAT6, 2, (const unsigned char*)&odr_count_zero);
   }
   break;
   case DMP_ODR_Reg_Quat9:
   {
-    result = inv_icm20948_write_mems(pdev, ODR_QUAT9, 2, (const unsigned char *)&odr_reg_val);
-    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_QUAT9, 2, (const unsigned char *)&odr_count_zero);
+    result = inv_icm20948_write_mems(pdev, ODR_QUAT9, 2, (const unsigned char*)&odr_reg_val);
+    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_QUAT9, 2, (const unsigned char*)&odr_count_zero);
   }
   break;
   case DMP_ODR_Reg_Quat6:
   {
-    result = inv_icm20948_write_mems(pdev, ODR_QUAT6, 2, (const unsigned char *)&odr_reg_val);
-    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_QUAT6, 2, (const unsigned char *)&odr_count_zero);
+    result = inv_icm20948_write_mems(pdev, ODR_QUAT6, 2, (const unsigned char*)&odr_reg_val);
+    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_QUAT6, 2, (const unsigned char*)&odr_count_zero);
   }
   break;
   case DMP_ODR_Reg_ALS:
   {
-    result = inv_icm20948_write_mems(pdev, ODR_ALS, 2, (const unsigned char *)&odr_reg_val);
-    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_ALS, 2, (const unsigned char *)&odr_count_zero);
+    result = inv_icm20948_write_mems(pdev, ODR_ALS, 2, (const unsigned char*)&odr_reg_val);
+    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_ALS, 2, (const unsigned char*)&odr_count_zero);
   }
   break;
   case DMP_ODR_Reg_Cpass:
   {
-    result = inv_icm20948_write_mems(pdev, ODR_CPASS, 2, (const unsigned char *)&odr_reg_val);
-    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_CPASS, 2, (const unsigned char *)&odr_count_zero);
+    result = inv_icm20948_write_mems(pdev, ODR_CPASS, 2, (const unsigned char*)&odr_reg_val);
+    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_CPASS, 2, (const unsigned char*)&odr_count_zero);
   }
   break;
   case DMP_ODR_Reg_Gyro:
   {
-    result = inv_icm20948_write_mems(pdev, ODR_GYRO, 2, (const unsigned char *)&odr_reg_val);
-    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_GYRO, 2, (const unsigned char *)&odr_count_zero);
+    result = inv_icm20948_write_mems(pdev, ODR_GYRO, 2, (const unsigned char*)&odr_reg_val);
+    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_GYRO, 2, (const unsigned char*)&odr_count_zero);
   }
   break;
   case DMP_ODR_Reg_Accel:
   {
-    result = inv_icm20948_write_mems(pdev, ODR_ACCEL, 2, (const unsigned char *)&odr_reg_val);
-    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_ACCEL, 2, (const unsigned char *)&odr_count_zero);
+    result = inv_icm20948_write_mems(pdev, ODR_ACCEL, 2, (const unsigned char*)&odr_reg_val);
+    result2 = inv_icm20948_write_mems(pdev, ODR_CNTR_ACCEL, 2, (const unsigned char*)&odr_count_zero);
   }
   break;
   default:
@@ -1731,7 +1729,7 @@ ICM_20948_Status_e inv_icm20948_set_dmp_sensor_period(ICM_20948_Device_t *pdev, 
   return result;
 }
 
-ICM_20948_Status_e inv_icm20948_enable_dmp_sensor(ICM_20948_Device_t *pdev, enum inv_icm20948_sensor sensor, int state)
+ICM_20948_Status_e inv_icm20948_enable_dmp_sensor(ICM_20948_Device_t* pdev, enum inv_icm20948_sensor sensor, int state)
 {
   ICM_20948_Status_e result = ICM_20948_Stat_Ok;
 
@@ -1847,7 +1845,7 @@ ICM_20948_Status_e inv_icm20948_enable_dmp_sensor(ICM_20948_Device_t *pdev, enum
   data_output_control_reg[0] = (unsigned char)(delta >> 8);
   data_output_control_reg[1] = (unsigned char)(delta & 0xff);
   pdev->_dataOutCtl1 = delta; // Diagnostics
-  result = inv_icm20948_write_mems(pdev, DATA_OUT_CTL1, 2, (const unsigned char *)&data_output_control_reg);
+  result = inv_icm20948_write_mems(pdev, DATA_OUT_CTL1, 2, (const unsigned char*)&data_output_control_reg);
   if (result != ICM_20948_Stat_Ok)
   {
     return result;
@@ -1857,7 +1855,7 @@ ICM_20948_Status_e inv_icm20948_enable_dmp_sensor(ICM_20948_Device_t *pdev, enum
   data_output_control_reg[0] = (unsigned char)(delta2 >> 8);
   data_output_control_reg[1] = (unsigned char)(delta2 & 0xff);
   pdev->_dataOutCtl2 = delta2; // Diagnostics
-  result = inv_icm20948_write_mems(pdev, DATA_OUT_CTL2, 2, (const unsigned char *)&data_output_control_reg);
+  result = inv_icm20948_write_mems(pdev, DATA_OUT_CTL2, 2, (const unsigned char*)&data_output_control_reg);
   if (result != ICM_20948_Stat_Ok)
   {
     return result;
@@ -1867,7 +1865,7 @@ ICM_20948_Status_e inv_icm20948_enable_dmp_sensor(ICM_20948_Device_t *pdev, enum
   data_output_control_reg[0] = (unsigned char)(data_rdy_status >> 8);
   data_output_control_reg[1] = (unsigned char)(data_rdy_status & 0xff);
   pdev->_dataRdyStatus = data_rdy_status; // Diagnostics
-  result = inv_icm20948_write_mems(pdev, DATA_RDY_STATUS, 2, (const unsigned char *)&data_output_control_reg);
+  result = inv_icm20948_write_mems(pdev, DATA_RDY_STATUS, 2, (const unsigned char*)&data_output_control_reg);
   if (result != ICM_20948_Stat_Ok)
   {
     return result;
@@ -1891,7 +1889,7 @@ ICM_20948_Status_e inv_icm20948_enable_dmp_sensor(ICM_20948_Device_t *pdev, enum
   data_output_control_reg[0] = (unsigned char)(inv_event_control >> 8);
   data_output_control_reg[1] = (unsigned char)(inv_event_control & 0xff);
   pdev->_motionEventCtl = inv_event_control; // Diagnostics
-  result = inv_icm20948_write_mems(pdev, MOTION_EVENT_CTL, 2, (const unsigned char *)&data_output_control_reg);
+  result = inv_icm20948_write_mems(pdev, MOTION_EVENT_CTL, 2, (const unsigned char*)&data_output_control_reg);
   if (result != ICM_20948_Stat_Ok)
   {
     return result;
@@ -1904,7 +1902,7 @@ ICM_20948_Status_e inv_icm20948_enable_dmp_sensor(ICM_20948_Device_t *pdev, enum
   return result;
 }
 
-ICM_20948_Status_e inv_icm20948_enable_dmp_sensor_int(ICM_20948_Device_t *pdev, enum inv_icm20948_sensor sensor, int state)
+ICM_20948_Status_e inv_icm20948_enable_dmp_sensor_int(ICM_20948_Device_t* pdev, enum inv_icm20948_sensor sensor, int state)
 {
   ICM_20948_Status_e result = ICM_20948_Stat_Ok;
 
@@ -1980,9 +1978,9 @@ ICM_20948_Status_e inv_icm20948_enable_dmp_sensor_int(ICM_20948_Device_t *pdev, 
   data_intr_ctl[0] = (unsigned char)(delta >> 8);
   data_intr_ctl[1] = (unsigned char)(delta & 0xff);
   pdev->_dataIntrCtl = delta; // Diagnostics
-  
+
   // Write the interrupt control bits into memory address DATA_INTR_CTL
-  result = inv_icm20948_write_mems(pdev, DATA_INTR_CTL, 2, (const unsigned char *)&data_intr_ctl);
+  result = inv_icm20948_write_mems(pdev, DATA_INTR_CTL, 2, (const unsigned char*)&data_intr_ctl);
 
   result = ICM_20948_low_power(pdev, true); // Put chip into low power state
   if (result != ICM_20948_Stat_Ok)
@@ -1991,7 +1989,7 @@ ICM_20948_Status_e inv_icm20948_enable_dmp_sensor_int(ICM_20948_Device_t *pdev, 
   return result;
 }
 
-ICM_20948_Status_e inv_icm20948_read_dmp_data(ICM_20948_Device_t *pdev, icm_20948_DMP_data_t *data)
+ICM_20948_Status_e inv_icm20948_read_dmp_data(ICM_20948_Device_t* pdev, icm_20948_DMP_data_t* data)
 {
   ICM_20948_Status_e result = ICM_20948_Stat_Ok;
   uint8_t fifoBytes[icm_20948_DMP_Maximum_Bytes]; // Interim storage for the FIFO data
@@ -2232,23 +2230,23 @@ ICM_20948_Status_e inv_icm20948_read_dmp_data(ICM_20948_Device_t *pdev, icm_2094
     // and looking at DMP frames which have the Gyro_Calibr bit set, that certainly seems to be true.
     // So, we'll skip this...:
     /*
-			if (fifo_count < icm_20948_DMP_Gyro_Calibr_Bytes) // Check if we need to read the FIFO count again
-			{
-					result = ICM_20948_get_FIFO_count(pdev, &fifo_count);
-					if (result != ICM_20948_Stat_Ok)
-							return result;
-			}
-			if (fifo_count < icm_20948_DMP_Gyro_Calibr_Bytes)
-					return ICM_20948_Stat_FIFOIncompleteData; // Bail if not enough data is available
-			result = ICM_20948_read_FIFO(pdev, &fifoBytes[0], icm_20948_DMP_Gyro_Calibr_Bytes);
-			if (result != ICM_20948_Stat_Ok)
-					return result;
-			for (int i = 0; i < icm_20948_DMP_Gyro_Calibr_Bytes; i++)
-			{
-					data->Gyro_Calibr.Bytes[DMP_Quat6_Byte_Ordering[i]] = fifoBytes[i]; // Correct the byte order (map big endian to little endian)
-			}
-			fifo_count -= icm_20948_DMP_Gyro_Calibr_Bytes; // Decrement the count
-			*/
+      if (fifo_count < icm_20948_DMP_Gyro_Calibr_Bytes) // Check if we need to read the FIFO count again
+      {
+          result = ICM_20948_get_FIFO_count(pdev, &fifo_count);
+          if (result != ICM_20948_Stat_Ok)
+              return result;
+      }
+      if (fifo_count < icm_20948_DMP_Gyro_Calibr_Bytes)
+          return ICM_20948_Stat_FIFOIncompleteData; // Bail if not enough data is available
+      result = ICM_20948_read_FIFO(pdev, &fifoBytes[0], icm_20948_DMP_Gyro_Calibr_Bytes);
+      if (result != ICM_20948_Stat_Ok)
+          return result;
+      for (int i = 0; i < icm_20948_DMP_Gyro_Calibr_Bytes; i++)
+      {
+          data->Gyro_Calibr.Bytes[DMP_Quat6_Byte_Ordering[i]] = fifoBytes[i]; // Correct the byte order (map big endian to little endian)
+      }
+      fifo_count -= icm_20948_DMP_Gyro_Calibr_Bytes; // Decrement the count
+      */
   }
 
   if ((data->header & DMP_header_bitmap_Compass_Calibr) > 0) // case DMP_header_bitmap_Compass_Calibr:
@@ -2366,25 +2364,25 @@ ICM_20948_Status_e inv_icm20948_read_dmp_data(ICM_20948_Device_t *pdev, icm_2094
     // lcm20948MPUFifoControl.c suggests icm_20948_DMP_Fsync_Detection_Bytes is not supported.
     // So, we'll skip this just in case...:
     /*
-			if (fifo_count < icm_20948_DMP_Fsync_Detection_Bytes) // Check if we need to read the FIFO count again
-			{
-					result = ICM_20948_get_FIFO_count(pdev, &fifo_count);
-					if (result != ICM_20948_Stat_Ok)
-							return result;
-			}
-			if (fifo_count < icm_20948_DMP_Fsync_Detection_Bytes)
-					return ICM_20948_Stat_FIFOIncompleteData; // Bail if not enough data is available
-			aShort = 0;
-			result = ICM_20948_read_FIFO(pdev, &fifoBytes[0], icm_20948_DMP_Fsync_Detection_Bytes);
-			if (result != ICM_20948_Stat_Ok)
-					return result;
-			for (int i = 0; i < icm_20948_DMP_Fsync_Detection_Bytes; i++)
-			{
-					aShort |= ((uint16_t)fifoBytes[i]) << (8 - (i * 8));
-			}
-			data->Fsync_Delay_Time = aShort;
-			fifo_count -= icm_20948_DMP_Fsync_Detection_Bytes; // Decrement the count
-			*/
+      if (fifo_count < icm_20948_DMP_Fsync_Detection_Bytes) // Check if we need to read the FIFO count again
+      {
+          result = ICM_20948_get_FIFO_count(pdev, &fifo_count);
+          if (result != ICM_20948_Stat_Ok)
+              return result;
+      }
+      if (fifo_count < icm_20948_DMP_Fsync_Detection_Bytes)
+          return ICM_20948_Stat_FIFOIncompleteData; // Bail if not enough data is available
+      aShort = 0;
+      result = ICM_20948_read_FIFO(pdev, &fifoBytes[0], icm_20948_DMP_Fsync_Detection_Bytes);
+      if (result != ICM_20948_Stat_Ok)
+          return result;
+      for (int i = 0; i < icm_20948_DMP_Fsync_Detection_Bytes; i++)
+      {
+          aShort |= ((uint16_t)fifoBytes[i]) << (8 - (i * 8));
+      }
+      data->Fsync_Delay_Time = aShort;
+      fifo_count -= icm_20948_DMP_Fsync_Detection_Bytes; // Decrement the count
+      */
   }
 
   if ((data->header2 & DMP_header2_bitmap_Pickup) > 0) // case DMP_header2_bitmap_Pickup:
@@ -2573,7 +2571,7 @@ enum inv_icm20948_sensor inv_icm20948_sensor_android_2_sensor_type(int sensor)
   }
 }
 
-ICM_20948_Status_e inv_icm20948_set_gyro_sf(ICM_20948_Device_t *pdev, unsigned char div, int gyro_level)
+ICM_20948_Status_e inv_icm20948_set_gyro_sf(ICM_20948_Device_t* pdev, unsigned char div, int gyro_level)
 {
   ICM_20948_Status_e result = ICM_20948_Stat_Ok;
 
@@ -2586,7 +2584,7 @@ ICM_20948_Status_e inv_icm20948_set_gyro_sf(ICM_20948_Device_t *pdev, unsigned c
   // First read the TIMEBASE_CORRECTION_PLL register from Bank 1
   int8_t pll; // Signed. Typical value is 0x18
   result = ICM_20948_set_bank(pdev, 1);
-  result = ICM_20948_execute_r(pdev, AGB1_REG_TIMEBASE_CORRECTION_PLL, (uint8_t *)&pll, 1);
+  result = ICM_20948_execute_r(pdev, AGB1_REG_TIMEBASE_CORRECTION_PLL, (uint8_t*)&pll, 1);
   if (result != ICM_20948_Stat_Ok)
   {
     return result;
@@ -2611,10 +2609,10 @@ ICM_20948_Status_e inv_icm20948_set_gyro_sf(ICM_20948_Device_t *pdev, unsigned c
     ResultLL = (MagicConstant * (long long)(1ULL << gyro_level) * (1 + div) / (1270 + pll) / MagicConstantScale);
   }
   /*
-	    In above deprecated FP version, worst case arguments can produce a result that overflows a signed long.
-	    Here, for such cases, we emulate the FP behavior of setting the result to the maximum positive value, as
-	    the compiler's conversion of a u64 to an s32 is simple truncation of the u64's high half, sadly....
-	*/
+      In above deprecated FP version, worst case arguments can produce a result that overflows a signed long.
+      Here, for such cases, we emulate the FP behavior of setting the result to the maximum positive value, as
+      the compiler's conversion of a u64 to an s32 is simple truncation of the u64's high half, sadly....
+  */
   if (ResultLL > 0x7FFFFFFF)
     gyro_sf = 0x7FFFFFFF;
   else

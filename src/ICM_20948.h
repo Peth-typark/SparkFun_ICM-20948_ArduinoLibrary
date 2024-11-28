@@ -7,12 +7,14 @@ A C++ interface to the ICM-20948
 #ifndef _ICM_20948_H_
 #define _ICM_20948_H_
 
+#include <stdint.h>
+
+#include <zephyr/drivers/gpio.h>
+// #include <zephyr/drivers/i2c.h>
+#include <zephyr/drivers/spi.h>
+
 #include "util/ICM_20948_C.h" // The C backbone. ICM_20948_USE_DMP is defined in here.
 #include "util/AK09916_REGISTERS.h"
-
-#include "Arduino.h" // Arduino support
-#include "Wire.h"
-#include "SPI.h"
 
 #define ICM_20948_ARD_UNUSED_PIN 0xFF
 
@@ -20,10 +22,9 @@ A C++ interface to the ICM-20948
 class ICM_20948
 {
 private:
-  Stream *_debugSerial;     //The stream to send debug messages to if enabled
   bool _printDebug = false; //Flag to print the serial commands we are sending to the Serial port for debug
 
-  const uint8_t MAX_MAGNETOMETER_STARTS = 10; // This replaces maxTries
+  static const uint8_t MAX_MAGNETOMETER_STARTS = 10; // This replaces maxTries
 
 protected:
   ICM_20948_Device_t _device;
@@ -36,26 +37,26 @@ protected:
 public:
   ICM_20948(); // Constructor
 
-// Enable debug messages using the chosen Serial port (Stream)
-// Boards like the RedBoard Turbo use SerialUSB (not Serial).
-// But other boards like the SAMD51 Thing Plus use Serial (not SerialUSB).
-// These lines let the code compile cleanly on as many SAMD boards as possible.
+  // Enable debug messages using the chosen Serial port (Stream)
+  // Boards like the RedBoard Turbo use SerialUSB (not Serial).
+  // But other boards like the SAMD51 Thing Plus use Serial (not SerialUSB).
+  // These lines let the code compile cleanly on as many SAMD boards as possible.
 #if defined(ARDUINO_ARCH_SAMD) // Is this a SAMD board?
 #if defined(USB_VID) // Is the USB Vendor ID defined?
 #if (USB_VID == 0x1B4F) // Is this a SparkFun board?
 #if !defined(ARDUINO_SAMD51_THING_PLUS) & !defined(ARDUINO_SAMD51_MICROMOD) // If it is not a SAMD51 Thing Plus or SAMD51 MicroMod
-  void enableDebugging(Stream &debugPort = SerialUSB); //Given a port to print to, enable debug messages.
+  void enableDebugging(); //Given a port to print to, enable debug messages.
 #else
-  void enableDebugging(Stream &debugPort = Serial); //Given a port to print to, enable debug messages.
+  void enableDebugging(); //Given a port to print to, enable debug messages.
 #endif
 #else
-  void enableDebugging(Stream &debugPort = Serial); //Given a port to print to, enable debug messages.
+  void enableDebugging(); //Given a port to print to, enable debug messages.
 #endif
 #else
-  void enableDebugging(Stream &debugPort = Serial); //Given a port to print to, enable debug messages.
+  void enableDebugging(); //Given a port to print to, enable debug messages.
 #endif
 #else
-  void enableDebugging(Stream &debugPort = Serial); //Given a port to print to, enable debug messages.
+  void enableDebugging(); //Given a port to print to, enable debug messages.
 #endif
 
   void disableDebugging(void); //Turn off debug statements
@@ -63,11 +64,9 @@ public:
   void debugPrintStatus(ICM_20948_Status_e stat);
 
   // gfvalvo's flash string helper code: https://forum.arduino.cc/index.php?topic=533118.msg3634809#msg3634809
-  void debugPrint(const char *);
-  void debugPrint(const __FlashStringHelper *);
-  void debugPrintln(const char *);
-  void debugPrintln(const __FlashStringHelper *);
-  void doDebugPrint(char (*)(const char *), const char *, bool newLine = false);
+  void debugPrint(const char*);
+  void debugPrintln(const char*);
+  void doDebugPrint(char (*)(const char*), const char*, bool newLine = false);
 
   void debugPrintf(int i);
   void debugPrintf(float f);
@@ -90,7 +89,7 @@ public:
   float temp(void); // degrees celsius
 
   ICM_20948_Status_e status;                                              // Status from latest operation
-  const char *statusString(ICM_20948_Status_e stat = ICM_20948_Stat_NUM); // Returns a human-readable status message. Defaults to status member, but prints string for supplied status if supplied
+  const char* statusString(ICM_20948_Status_e stat = ICM_20948_Stat_NUM); // Returns a human-readable status message. Defaults to status member, but prints string for supplied status if supplied
 
   // Device Level
   ICM_20948_Status_e setBank(uint8_t bank);                                // Sets the bank
@@ -140,12 +139,12 @@ public:
 
   //Used for configuring peripherals 0-3
   ICM_20948_Status_e i2cControllerConfigurePeripheral(uint8_t peripheral, uint8_t addr, uint8_t reg, uint8_t len, bool Rw = true, bool enable = true, bool data_only = false, bool grp = false, bool swap = false, uint8_t dataOut = 0);
-  ICM_20948_Status_e i2cControllerPeriph4Transaction(uint8_t addr, uint8_t reg, uint8_t *data, uint8_t len, bool Rw, bool send_reg_addr = true);
+  ICM_20948_Status_e i2cControllerPeriph4Transaction(uint8_t addr, uint8_t reg, uint8_t* data, uint8_t len, bool Rw, bool send_reg_addr = true);
 
   //Provided for backward-compatibility only. Please update to i2cControllerConfigurePeripheral and i2cControllerPeriph4Transaction.
   //https://www.oshwa.org/2020/06/29/a-resolution-to-redefine-spi-pin-names/
   ICM_20948_Status_e i2cMasterConfigureSlave(uint8_t peripheral, uint8_t addr, uint8_t reg, uint8_t len, bool Rw = true, bool enable = true, bool data_only = false, bool grp = false, bool swap = false);
-  ICM_20948_Status_e i2cMasterSLV4Transaction(uint8_t addr, uint8_t reg, uint8_t *data, uint8_t len, bool Rw, bool send_reg_addr = true);
+  ICM_20948_Status_e i2cMasterSLV4Transaction(uint8_t addr, uint8_t reg, uint8_t* data, uint8_t len, bool Rw, bool send_reg_addr = true);
 
   //Used for configuring the Magnetometer
   ICM_20948_Status_e i2cMasterSingleW(uint8_t addr, uint8_t reg, uint8_t data);
@@ -155,22 +154,22 @@ public:
   ICM_20948_Status_e startupDefault(bool minimal = false); // If minimal is true, several startup steps are skipped. If ICM_20948_USE_DMP is defined, .begin will call startupDefault with minimal set to true.
 
   // direct read/write
-  ICM_20948_Status_e read(uint8_t reg, uint8_t *pdata, uint32_t len);
-  ICM_20948_Status_e write(uint8_t reg, uint8_t *pdata, uint32_t len);
+  ICM_20948_Status_e read(uint8_t reg, uint8_t* pdata, uint32_t len);
+  ICM_20948_Status_e write(uint8_t reg, uint8_t* pdata, uint32_t len);
 
   //Mag specific
   ICM_20948_Status_e startupMagnetometer(bool minimal = false); // If minimal is true, several startup steps are skipped. The mag then needs to be set up manually for the DMP.
   ICM_20948_Status_e magWhoIAm(void);
   uint8_t readMag(AK09916_Reg_Addr_e reg);
-  ICM_20948_Status_e writeMag(AK09916_Reg_Addr_e reg, uint8_t *pdata);
+  ICM_20948_Status_e writeMag(AK09916_Reg_Addr_e reg, uint8_t* pdata);
   ICM_20948_Status_e resetMag();
 
   //FIFO
   ICM_20948_Status_e enableFIFO(bool enable = true);
   ICM_20948_Status_e resetFIFO(void);
   ICM_20948_Status_e setFIFOmode(bool snapshot = false); // Default to Stream (non-Snapshot) mode
-  ICM_20948_Status_e getFIFOcount(uint16_t *count);
-  ICM_20948_Status_e readFIFO(uint8_t *data, uint8_t len = 1);
+  ICM_20948_Status_e getFIFOcount(uint16_t* count);
+  ICM_20948_Status_e readFIFO(uint8_t* data, uint8_t len = 1);
 
   //DMP
 
@@ -230,34 +229,12 @@ public:
   ICM_20948_Status_e setDMPstartAddress(unsigned short address = DMP_START_ADDRESS);
   ICM_20948_Status_e enableDMPSensor(enum inv_icm20948_sensor sensor, bool enable = true);
   ICM_20948_Status_e enableDMPSensorInt(enum inv_icm20948_sensor sensor, bool enable = true);
-  ICM_20948_Status_e writeDMPmems(unsigned short reg, unsigned int length, const unsigned char *data);
-  ICM_20948_Status_e readDMPmems(unsigned short reg, unsigned int length, unsigned char *data);
+  ICM_20948_Status_e writeDMPmems(unsigned short reg, unsigned int length, const unsigned char* data);
+  ICM_20948_Status_e readDMPmems(unsigned short reg, unsigned int length, unsigned char* data);
   ICM_20948_Status_e setDMPODRrate(enum DMP_ODR_Registers odr_reg, int interval);
-  ICM_20948_Status_e readDMPdataFromFIFO(icm_20948_DMP_data_t *data);
+  ICM_20948_Status_e readDMPdataFromFIFO(icm_20948_DMP_data_t* data);
   ICM_20948_Status_e setGyroSF(unsigned char div, int gyro_level);
   ICM_20948_Status_e initializeDMP(void) __attribute__((weak)); // Combine all of the DMP start-up code in one place. Can be overwritten if required
-};
-
-// I2C
-
-// Forward declarations of TwoWire and Wire for board/variant combinations that don't have a default 'SPI'
-//class TwoWire; // Commented by PaulZC 21/2/8 - this was causing compilation to fail on the Arduino NANO 33 BLE
-//extern TwoWire Wire; // Commented by PaulZC 21/2/8 - this was causing compilation to fail on the Arduino NANO 33 BLE
-
-class ICM_20948_I2C : public ICM_20948
-{
-private:
-protected:
-public:
-  TwoWire *_i2c;
-  uint8_t _addr;
-  uint8_t _ad0;
-  bool _ad0val;
-  ICM_20948_Serif_t _serif;
-
-  ICM_20948_I2C(); // Constructor
-
-  virtual ICM_20948_Status_e begin(TwoWire &wirePort = Wire, bool ad0val = true, uint8_t ad0pin = ICM_20948_ARD_UNUSED_PIN);
 };
 
 // SPI
@@ -274,14 +251,13 @@ class ICM_20948_SPI : public ICM_20948
 private:
 protected:
 public:
-  SPIClass *_spi;
-  SPISettings _spisettings;
-  uint8_t _cs;
+  const struct spi_dt_spec* _spi;
+  const struct gpio_dt_spec* _intterupt;
   ICM_20948_Serif_t _serif;
 
   ICM_20948_SPI(); // Constructor
 
-  ICM_20948_Status_e begin(uint8_t csPin, SPIClass &spiPort = SPI, uint32_t SPIFreq = ICM_20948_SPI_DEFAULT_FREQ);
+  ICM_20948_Status_e begin(const struct spi_dt_spec* spi, const struct gpio_dt_spec* intterupt = nullptr, uint32_t SPIFreq = ICM_20948_SPI_DEFAULT_FREQ);
 };
 
 #endif /* _ICM_20948_H_ */
